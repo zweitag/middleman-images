@@ -9,7 +9,7 @@ Feature: Image resizing
     Given the Server is running at "example"
     When I go to "/example.html"
     And I go to "/images/fox-400x400.jpg"
-    Then I should not see "File Not Found"
+    Then the status code should be "200"
 
   Scenario: building resized image
     Given a successfully built app at "example"
@@ -18,3 +18,4 @@ Feature: Image resizing
       | example.html |
       | images/fox.jpg |
       | images/fox-400x400.jpg |
+    Then the dimensions of the file "./images/fox-400x400.jpg" should be 400x222
