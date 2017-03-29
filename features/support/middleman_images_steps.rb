@@ -5,3 +5,8 @@ Then(/^the dimensions of the file "([^"]*)" should be (\d+)x(\d+)$/) do |path, x
   expect(image.dimensions).to eql [x.to_i, y.to_i]
 end
 
+Then(/^the exif data of the file "([^"]*)" should be empty$/) do |path|
+  image = MiniMagick::Image.open expand_path(path)
+  expect(image.exif).to be_empty
+end
+

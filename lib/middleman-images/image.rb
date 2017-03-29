@@ -1,4 +1,5 @@
 require 'mini_magick'
+require 'image_optim'
 
 module Middleman
   module Images
@@ -20,13 +21,14 @@ module Middleman
 
       def build_resource(source, destination, options)
         destination_full = (@app.source_dir + destination).to_s
-        resize_image(source, destination_full, options[:resize]) # TODO: Add condition, but copy file in any case
+        resize_image(source, destination_full, options) # TODO: Add condition, but copy file in any case
         ::Middleman::Sitemap::Resource.new(@app.sitemap, destination, destination_full)
       end
 
-      def resize_image(source, destination, dimensions)
+      def resize_image(source, destination, options)
         image = MiniMagick::Image.open(source)
-        image.resize dimensions unless dimensions.nil?
+        image.resize options[:resize] unless options[:resize].nil?
+        ImageOptim.new.optimize_image!(image.path) if options[:optimize]
         image.write destination
       end
     end

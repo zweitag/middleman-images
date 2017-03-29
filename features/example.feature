@@ -19,3 +19,4 @@ Feature: Image resizing
       | images/fox.jpg |
       | images/fox-400x225.jpg |
     Then the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
+    Then the exif data of the file "./images/fox-400x225.jpg" should be empty

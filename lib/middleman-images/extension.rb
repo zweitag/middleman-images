@@ -26,9 +26,8 @@ module Middleman
         options = {alt: template_context.image_alt(url)}.merge(options) # TODO: also 'alt'
         source = app.sitemap.find_resource_by_path(url)
         destination = source.normalized_path.sub(/#{source.ext}$/, '') + '-' + template_context.escape_html(resize) + source.ext
-        # FIXME https://github.com/toy/image_optim, guetzli, etc.
         # TODO copy alt tag to exif data
-        image = Image.new(@app, source.source_file, destination, { resize: resize })
+        image = Image.new(@app, source.source_file, destination, { resize: resize, optimize: optimize })
         app.sitemap.register_resource_list_manipulator(:images, image, 40)
         app.sitemap.rebuild_resource_list!(:images)
         template_context.image_tag(destination, options)
