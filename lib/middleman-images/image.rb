@@ -21,7 +21,7 @@ module Middleman
 
       def build_resource(source, destination, options)
         destination_full = (@app.source_dir + destination).to_s
-        resize_image(source, destination_full, options) # TODO: Add condition, but copy file in any case
+        resize_image(source, destination_full, options)
         ::Middleman::Sitemap::Resource.new(@app.sitemap, destination, destination_full)
       end
 
