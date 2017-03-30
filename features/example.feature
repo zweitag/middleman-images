@@ -11,12 +11,15 @@ Feature: Image resizing
     And I go to "/images/fox-400x225.jpg"
     Then the status code should be "200"
 
-  Scenario: building resized image
+  Scenario: building resized images
     Given a successfully built app at "example"
     When I cd to "build"
     Then the following files should exist:
       | example.html |
       | images/fox.jpg |
       | images/fox-400x225.jpg |
+      | images/fox-400x225-nopt.jpg |
     Then the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
     Then the exif data of the file "./images/fox-400x225.jpg" should be empty
+    Then the dimensions of the file "./images/fox-400x225-nopt.jpg" should be 400x225
+    Then the exif data of the file "./images/fox-400x225-nopt.jpg" should not be empty
