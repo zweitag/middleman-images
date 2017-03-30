@@ -1,6 +1,6 @@
 activate :images do |config|
   config.optimize = true
-  config.image_optim_options = {
+  config.image_optim = {
     pngout: false,
     svgo: false
   }

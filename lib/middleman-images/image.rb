@@ -28,7 +28,7 @@ module Middleman
       def resize_image(source, destination, options)
         image = MiniMagick::Image.open(source)
         image.resize options[:resize] unless options[:resize].nil?
-        ImageOptim.new(options[:image_optim_options]).optimize_image!(image.path) if options[:optimize]
+        ImageOptim.new(options[:image_optim]).optimize_image!(image.path) if options[:optimize]
         image.write destination
       end
     end
