@@ -6,6 +6,7 @@ module Middleman
     class Extension < ::Middleman::Extension
 
       option :optimize, true, 'Whether to optimize images by default'
+      option :image_optim_options, {}, 'Default options for image_optim'
 
       helpers do
         def image_tag(url, options = {})
@@ -24,7 +25,8 @@ module Middleman
       def resize_image(url, options)
         image_options = {
           resize: options[:resize],
-          optimize: options[:optimize].nil? ? !!self.options[:optimize] : options[:optimize]
+          optimize: options[:optimize].nil? ? !!self.options[:optimize] : options[:optimize],
+          image_optim_options: self.options[:image_optim_options]
         }
         options = options.except(*image_options.keys)
         delete_original = !! options.delete(:delete_original) # TODO call resource.ignore!

@@ -18,4 +18,5 @@ group :test do
   gem 'capybara'
   gem 'aruba'
   gem 'rspec'
+  gem 'image_optim_pack'
 end
