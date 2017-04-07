@@ -11,7 +11,7 @@ Feature: Image resizing
     And I go to "/images/fox-400x225.jpg"
     Then the status code should be "200"
 
-  Scenario: building resized images
+  Scenario: building images
     Given a successfully built app at "example"
     When I cd to "build"
     Then the following files should exist:
@@ -20,6 +20,16 @@ Feature: Image resizing
       | images/fox-400x225.jpg |
       | images/fox-400x225-nopt.jpg |
     Then the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
-    Then the exif data of the file "./images/fox-400x225.jpg" should be empty
     Then the dimensions of the file "./images/fox-400x225-nopt.jpg" should be 400x225
-    Then the exif data of the file "./images/fox-400x225-nopt.jpg" should not be empty
+    Then the file "./images/fox-400x225.jpg" should be smaller than the file "./images/fox-400x225-nopt.jpg"
+
+  Scenario: building images with config: optimize => false
+    Given a fixture app "example"
+      And app "example" is using config "nopt"
+      And a successfully built app at "example"
+    When I cd to "build"
+    Then the following files should exist:
+      | images/fox-400x225-opt.jpg |
+      | images/fox-400x225.jpg |
+    Then the file "./images/fox-400x225-opt.jpg" should be smaller than the file "./images/fox-400x225.jpg"
+
