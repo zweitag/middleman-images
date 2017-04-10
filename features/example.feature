@@ -20,10 +20,10 @@ Feature: Image resizing
       | images/fox-opt.jpg |
       | images/fox-400x225.jpg |
       | images/fox-400x225-opt.jpg |
-    Then the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
-    Then the dimensions of the file "./images/fox-400x225-opt.jpg" should be 400x225
-    Then the file "./images/fox-400x225-opt.jpg" should be smaller than the file "./images/fox-400x225.jpg"
-    Then the file "./images/fox-opt.jpg" should be smaller than the file "./images/fox.jpg"
+    And the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
+    And the dimensions of the file "./images/fox-400x225-opt.jpg" should be 400x225
+    And the file "./images/fox-400x225-opt.jpg" should be smaller than the file "./images/fox-400x225.jpg"
+    And the file "./images/fox-opt.jpg" should be smaller than the file "./images/fox.jpg"
 
   Scenario: building images (config: optimize => false)
     Given a fixture app "example"
@@ -35,8 +35,8 @@ Feature: Image resizing
       | images/fox.jpg |
       | images/fox-400x225.jpg |
       | images/fox-400x225-opt.jpg |
-    Then the following files should not exist:
+    And the following files should not exist:
       | images/fox-opt.jpg |
-    Then the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
-    Then the dimensions of the file "./images/fox-400x225-opt.jpg" should be 400x225
-    Then the file "./images/fox-400x225-opt.jpg" should be smaller than the file "./images/fox-400x225.jpg"
+    And the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
+    And the dimensions of the file "./images/fox-400x225-opt.jpg" should be 400x225
+    And the file "./images/fox-400x225-opt.jpg" should be smaller than the file "./images/fox-400x225.jpg"
