@@ -13,7 +13,6 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
-        return resources if @app.sitemap.find_resource_by_path(@destination)
         resources << build_resource(@source, @destination, @options)
       end
 

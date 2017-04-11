@@ -2,13 +2,10 @@ Feature: Image optimization
 
   Scenario: regular image_tag behavior without optimization
     Given a fixture app "image_tag"
-    And a file named "source/index.html.erb" with:
+    And "images" feature is "enabled" with "optimize: false" 
+    And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: "Lazy Fox" %>
-      """
-    And a file named "config.rb" with:
-      """
-      activate :images, optimize: false
       """
     And the Server is running
     When I go to "/index.html"
@@ -19,13 +16,10 @@ Feature: Image optimization
 
   Scenario: Optimize an image by default
     Given a fixture app "image_tag"
-    Given a file named "source/index.html.erb" with:
+    And "images" feature is "enabled"
+    And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: 'Lazy Fox' %>
-      """
-    And a file named "config.rb" with:
-      """
-      activate :images
       """
     And the Server is running
     When I go to "/index.html"
@@ -36,13 +30,10 @@ Feature: Image optimization
 
   Scenario: Override optimize by default
     Given a fixture app "image_tag"
-    Given a file named "source/index.html.erb" with:
+    And "images" feature is "enabled"
+    And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: 'Lazy Fox', optimize: false %>
-      """
-    And a file named "config.rb" with:
-      """
-      activate :images
       """
     And the Server is running
     When I go to "/index.html"
@@ -50,13 +41,10 @@ Feature: Image optimization
 
   Scenario: Override disabled optimization
     Given a fixture app "image_tag"
-    Given a file named "source/index.html.erb" with:
+    And "images" feature is "enabled" with "optimize: false" 
+    And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: 'Lazy Fox', optimize: true %>
-      """
-    And a file named "config.rb" with:
-      """
-      activate :images, optimize: false
       """
     And the Server is running
     When I go to "/index.html"
