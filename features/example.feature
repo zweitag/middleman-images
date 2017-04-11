@@ -11,11 +11,32 @@ Feature: Image resizing
     And I go to "/images/fox-400x225.jpg"
     Then the status code should be "200"
 
-  Scenario: building resized image
+  Scenario: building images (config: optimize => true)
     Given a successfully built app at "example"
     When I cd to "build"
     Then the following files should exist:
       | example.html |
       | images/fox.jpg |
+      | images/fox-opt.jpg |
       | images/fox-400x225.jpg |
-    Then the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
+      | images/fox-400x225-opt.jpg |
+    And the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
+    And the dimensions of the file "./images/fox-400x225-opt.jpg" should be 400x225
+    And the file "./images/fox-400x225-opt.jpg" should be smaller than the file "./images/fox-400x225.jpg"
+    And the file "./images/fox-opt.jpg" should be smaller than the file "./images/fox.jpg"
+
+  Scenario: building images (config: optimize => false)
+    Given a fixture app "example"
+      And app "example" is using config "nopt"
+      And a successfully built app at "example"
+    When I cd to "build"
+    Then the following files should exist:
+      | example.html |
+      | images/fox.jpg |
+      | images/fox-400x225.jpg |
+      | images/fox-400x225-opt.jpg |
+    And the following files should not exist:
+      | images/fox-opt.jpg |
+    And the dimensions of the file "./images/fox-400x225.jpg" should be 400x225
+    And the dimensions of the file "./images/fox-400x225-opt.jpg" should be 400x225
+    And the file "./images/fox-400x225-opt.jpg" should be smaller than the file "./images/fox-400x225.jpg"

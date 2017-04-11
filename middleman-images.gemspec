@@ -21,4 +21,6 @@ Gem::Specification.new do |s|
 
   # Needed for resizing images
   s.add_runtime_dependency("mini_magick", [">= 4.7.0"])
+  # Image optimization
+  s.add_runtime_dependency("image_optim", [">= 0.24.2"])
 end

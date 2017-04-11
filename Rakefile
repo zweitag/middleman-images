@@ -7,6 +7,10 @@ Cucumber::Rake::Task.new(:cucumber, 'Run features that should pass') do |t|
   t.cucumber_opts = '--color --tags ~@wip --strict'
 end
 
+Cucumber::Rake::Task.new(:cucumber_wip, 'Run work-in-progress features that should pass') do |t|
+  t.cucumber_opts = "--color --tags @wip --strict"
+end
+
 require 'rake/clean'
 
 task test: ['cucumber']
