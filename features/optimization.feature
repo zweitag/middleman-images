@@ -1,7 +1,7 @@
 Feature: Image optimization
 
   Scenario: regular image_tag behavior without optimization
-    Given a fixture app "image_tag"
+    Given a fixture app "image"
     And "images" feature is "enabled" with "optimize: false" 
     And a template named "index.html.erb" with:
       """
@@ -15,7 +15,7 @@ Feature: Image optimization
     And the content length should be equal to the file size of "source/images/fox.jpg"
 
   Scenario: Optimize an image by default
-    Given a fixture app "image_tag"
+    Given a fixture app "image"
     And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
@@ -29,7 +29,7 @@ Feature: Image optimization
     And the content length should be smaller than the file size of "source/images/fox.jpg"
 
   Scenario: Override optimize by default
-    Given a fixture app "image_tag"
+    Given a fixture app "image"
     And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
@@ -40,7 +40,7 @@ Feature: Image optimization
     Then I should see '<img src="/images/fox.jpg" alt="Lazy Fox" />'
 
   Scenario: Override disabled optimization
-    Given a fixture app "image_tag"
+    Given a fixture app "image"
     And "images" feature is "enabled" with "optimize: false" 
     And a template named "index.html.erb" with:
       """

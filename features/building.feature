@@ -1,7 +1,7 @@
 Feature: Building images
 
   Scenario: building all images
-    Given a fixture app "image_tag"
+    Given a fixture app "image"
     And a file named "config.rb" with:
       """
       activate :images
@@ -12,7 +12,7 @@ Feature: Building images
       <%= image_tag 'images/fox.jpg', resize: '400x225', optimize: true %>
       <%= image_tag 'images/fox.jpg', resize: '400x225', optimize: false %>
       """
-    And a successfully built app at "image_tag"
+    And a successfully built app at "image"
     When I cd to "build"
     Then the following files should exist:
       | index.html |
@@ -22,7 +22,7 @@ Feature: Building images
       | images/fox-400x225-opt.jpg |
 
   Scenario: not rebuilding existing resources
-    Given a fixture app "image_tag"
+    Given a fixture app "image"
     And "images" feature is "enabled"
     And a template named "first.html.erb" with:
       """

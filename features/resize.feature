@@ -1,7 +1,7 @@
 Feature: Image resizing
 
   Scenario: Resize image
-    Given a fixture app "image_tag"
+    Given a fixture app "image"
     And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
@@ -15,7 +15,7 @@ Feature: Image resizing
     And the dimensions should be 400x225
 
   Scenario: Resize image with optimization
-    Given a fixture app "image_tag"
+    Given a fixture app "image"
     And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
