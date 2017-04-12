@@ -8,8 +8,8 @@ Feature: Building images
       """
     And a template named "index.html.erb" with:
       """
-      <%= image_tag 'images/fox.jpg' %>
-      <%= image_tag 'images/fox.jpg', resize: '400x225' %>
+      <%= image_tag 'images/fox.jpg', optimize: true %>
+      <%= image_tag 'images/fox.jpg', resize: '400x225', optimize: true %>
       <%= image_tag 'images/fox.jpg', resize: '400x225', optimize: false %>
       """
     And a successfully built app at "image_tag"
