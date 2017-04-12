@@ -1,6 +1,6 @@
 require 'mini_magick'
 
-Then(/^the dimensions should be (\d+)x(\d+)$/) do |x, y|
+Then /^the dimensions should be (\d+)x(\d+)$/ do |x, y|
   image = MiniMagick::Image.read page.body
   expect(image.dimensions).to eql [x.to_i, y.to_i]
 end

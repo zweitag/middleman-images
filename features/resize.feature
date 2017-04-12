@@ -2,10 +2,10 @@ Feature: Image resizing
 
   Scenario: Resize image
     Given a fixture app "image_tag"
-    And "images" feature is "enabled" with "optimize: false"
+    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
-      <%= image_tag '/images/fox.jpg', alt: "Lazy Fox", resize: "400x225" %>
+      <%= image_tag '/images/fox.jpg', alt: "Lazy Fox", resize: "400x225", optimize: false %>
       """
     And the Server is running
     When I go to "/index.html"
@@ -19,7 +19,7 @@ Feature: Image resizing
     And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
-      <%= image_tag '/images/fox.jpg', alt: "Lazy Fox", resize: "400x225" %>
+      <%= image_tag '/images/fox.jpg', alt: "Lazy Fox", resize: "400x225", optimize: true %>
       """
     And the Server is running
     When I go to "/index.html"
