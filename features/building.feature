@@ -23,10 +23,7 @@ Feature: Building images
 
   Scenario: not rebuilding existing resources
     Given a fixture app "image_tag"
-    And a file named "config.rb" with:
-      """
-      activate :images
-      """
+    And "images" feature is "enabled"
     And a template named "first.html.erb" with:
       """
       <%= image_tag 'images/fox.jpg', optimize: true %>
