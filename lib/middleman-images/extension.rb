@@ -13,6 +13,14 @@ module Middleman
           url, options = extensions[:images].image(url, options)
           super
         end
+
+        def image_path(source, options = {})
+          super(source)
+        end
+
+        def image_url(source, options = {})
+          super(source)
+        end
       end
 
       def template_context
