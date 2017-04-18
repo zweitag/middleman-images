@@ -1,5 +1,6 @@
 require 'middleman-core'
 require 'pathname'
+require 'padrino-helpers'
 
 module Middleman
   module Images
@@ -15,10 +16,7 @@ module Middleman
         end
 
         def image_path(source, options = {})
-          super(source)
-        end
-
-        def image_url(source, options = {})
+          source, options = extensions[:images].image(source, options)
           super(source)
         end
       end
