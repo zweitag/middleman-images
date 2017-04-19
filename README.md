@@ -1,12 +1,12 @@
 # Middleman Images Extension
 
 Resize and optimize your images on the fly with Middleman. Just run `middleman build`
-and all your images will get the minimizing treatment. *Middleman Images* currently
+and all your images will get the minimizing treatment. **Middleman Images** currently
 depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing and
 [image_optim](https://github.com/toy/image_optim) for optimizing your images.
 
 
-[![Build Status](https://travis-ci.org/zweitag/middleman_images.png?branch=master)](https://travis-ci.org/zweitag/middleman_images)
+[![Build Status](https://api.travis-ci.org/zweitag/middleman-images.png?branch=master)](https://travis-ci.org/zweitag/middleman-images)
 
 * * *
 
@@ -20,7 +20,8 @@ Resizing images requires ImageMagick to be available. Check
 [mini_magick](https://github.com/minimagick/minimagick) for more information.
 
 ImageOptim uses different tools to optimize image files. The easiest way to
-make sure those tools are available is by including gem with a pack of these tools:
+make sure, most of these tools are available, is by including them via a seperate
+gem:
 
 ```ruby
 gem 'image_optim_pack'
@@ -38,7 +39,7 @@ Configure the extension by passing a block to `:activate`.
 
 ```ruby
 activate :images do |options|
-  # Optimize all images by default 
+  # Optimize all images by default (default: true) 
   optimize: true
 
   # Provide additional options for image_optim
@@ -53,37 +54,39 @@ end
 
 ## Usage
 
-You can now use the option `resize` on the middleman helpers `image_tag` and
-`image_path` to replace the images with their resized versions on build.
+### Resize
 
-Input:
+To resize your images on build, set the option `resize` on the middleman helpers
+`image_tag` and `image_path`.
+
 ```erb
 <%= image_tag 'example.jpg', resize: '200x300' %>
 ```
+becomes:
 
-Output:
 ```html
 <img src="/assets/images/example-200x300-opt.jpg" alt="Example" />
 ```
 
 The image `example.jpg` will be resized, optimized and saved to `example-200x300-opt.jpg`.
 
+### Optimize
+
 You can disable (or enable) optimization for some images by providing the `optimize`
 option.
 
-Input:
 ```erb
 <%= image_path 'example.jpg', resize: '200x300', optimize: false %>
 ```
+becomes:
 
-Output:
 ```html
 /assets/images/example-200x300.jpg
 ```
 
-### `srcset`
+### srcset
 
-Using `srcset` with *Middleman Images* is currently only possible via the `image_path`
+Using `srcset` with **Middleman Images** is currently only possible via the `image_path`
 helper:
 
 ```erb
