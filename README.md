@@ -87,7 +87,8 @@ becomes:
 ### srcset
 
 Using `srcset` with **Middleman Images** is possible via the `image_path`
-helper. This is the prefered way in Middleman
+helper. Corresponding to the way Middleman handles this in conjunction with the
+`:asset_hash` option
 (see [Middleman#File Size Optimization](https://middlemanapp.com/advanced/file-size-optimization)).
 
 ```erb
