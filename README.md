@@ -86,8 +86,9 @@ becomes:
 
 ### srcset
 
-Using `srcset` with **Middleman Images** is currently only possible via the `image_path`
-helper:
+Using `srcset` with **Middleman Images** is possible via the `image_path`
+helper. This is the prefered way in Middleman
+(see [Middleman#File Size Optimization](https://middlemanapp.com/advanced/file-size-optimization)).
 
 ```erb
 <img src="<%= image_path 'example.jpg', resize: '200x300' %>"
