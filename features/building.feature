@@ -1,10 +1,15 @@
 Feature: Building images
 
-  Scenario: building all images
+  Scenario: Building all images
     Given a fixture app "image"
     And a file named "config.rb" with:
       """
-      activate :images
+      activate :images do |config|
+        config.image_optim = {
+          svgo: false,
+          pngout: false
+        }
+      end
       """
     And a template named "index.html.erb" with:
       """
@@ -21,7 +26,7 @@ Feature: Building images
       | images/fox-400x225.jpg |
       | images/fox-400x225-opt.jpg |
 
-  Scenario: not rebuilding existing resources
+  Scenario: Not rebuilding existing resources
     Given a fixture app "image"
     And "images" feature is "enabled"
     And a template named "first.html.erb" with:
