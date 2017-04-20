@@ -10,13 +10,15 @@ module Middleman
       option :image_optim, {}, 'Default options for image_optim'
 
       helpers do
-        def image_tag(url, options = {})
-          url, options = extensions[:images].image(url, options)
+        def image_tag(source, options = {})
+          source, options = extensions[:images].image(source, options)
           super
         end
 
         def image_path(source, options = {})
-          source, options = extensions[:images].image(source, options)
+          unless app.sitemap.find_resource_by_path(source).options.dig(:middleman_images, :processed)
+            source, options = extensions[:images].image(source, options)
+          end
           super(source)
         end
       end
@@ -33,6 +35,11 @@ module Middleman
             app.sitemap.register_resource_list_manipulator(:images, image, 40)
             app.sitemap.rebuild_resource_list!(:images)
           end
+          app.sitemap.find_resource_by_path(url).add_metadata options: {
+            middleman_images: {
+              processed: true
+            }
+          }
         end
       end
 
@@ -43,9 +50,7 @@ module Middleman
           optimize: options.key?(:optimize) ? options[:optimize] : self.options[:optimize],
           image_optim: self.options[:image_optim]
         }
-        if process_options[:resize] || process_options[:optimize]
-          url = process(url, process_options)
-        end
+        url = process(url, process_options)
         [url, image_options]
       end
 
@@ -62,6 +67,7 @@ module Middleman
       end
 
       private
+
       def destination_path(source, options)
         destination = source.normalized_path.sub(/#{source.ext}$/, '')
         destination += '-' + template_context.escape_html(options[:resize]) if options[:resize]

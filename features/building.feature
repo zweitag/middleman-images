@@ -4,7 +4,12 @@ Feature: Building images
     Given a fixture app "image"
     And a file named "config.rb" with:
       """
-      activate :images
+      activate :images do |config|
+        config.image_optim = {
+          svgo: false,
+          pngout: false
+        }
+      end
       """
     And a template named "index.html.erb" with:
       """
