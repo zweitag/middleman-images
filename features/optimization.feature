@@ -1,6 +1,6 @@
 Feature: Image optimization
 
-  Scenario: regular image_tag behavior without optimization
+  Scenario: Regular behavior without optimization
     Given a fixture app "image"
     And "images" feature is "enabled" with "optimize: false" 
     And a template named "index.html.erb" with:

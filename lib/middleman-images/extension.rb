@@ -1,5 +1,6 @@
 require 'middleman-core'
 require 'pathname'
+require 'padrino-helpers'
 
 module Middleman
   module Images
@@ -10,8 +11,14 @@ module Middleman
 
       helpers do
         def image_tag(url, options = {})
-          url, options = extensions[:images].image(url, options)
+          process_options = options.slice(:resize, :optimize)
+          options = { :src => image_path(url, process_options) }.update(options.except(:resize, :optimize))
           super
+        end
+
+        def image_path(url, process_options = {})
+          url = extensions[:images].process(url, process_options)
+          super url
         end
       end
 
@@ -20,27 +27,20 @@ module Middleman
       end
 
       def process(url, process_options)
+        process_options[:image_optim] = self.options[:image_optim]
+        process_options[:optimize] = self.options[:optimize] unless process_options.key?(:optimize)
         source = app.sitemap.find_resource_by_path(url)
-        destination_path(source, process_options).tap do |url|
-          unless app.sitemap.find_resource_by_path(url)
-            image = Image.new(@app, source.source_file, url, process_options)
-            app.sitemap.register_resource_list_manipulator(:images, image, 40)
-            app.sitemap.rebuild_resource_list!(:images)
-          end
-        end
-      end
-
-      def image(url, options)
-        image_options = options.except(:resize, :optimize)
-        process_options = {
-          resize: options[:resize],
-          optimize: options.key?(:optimize) ? options[:optimize] : self.options[:optimize],
-          image_optim: self.options[:image_optim]
-        }
         if process_options[:resize] || process_options[:optimize]
-          url = process(url, process_options)
+          destination_path(source, process_options).tap do |url|
+            unless app.sitemap.find_resource_by_path(url)
+              image = Image.new(@app, source.source_file, url, process_options)
+              app.sitemap.register_resource_list_manipulator(:images, image, 40)
+              app.sitemap.rebuild_resource_list!(:images)
+            end
+          end
+        else
+          url
         end
-        [url, image_options]
       end
 
       def initialize(app, options_hash={}, &block)

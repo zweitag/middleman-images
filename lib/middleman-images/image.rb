@@ -20,11 +20,11 @@ module Middleman
 
       def build_resource(source, destination, options)
         destination_full = (@app.source_dir + destination).to_s
-        resize_image(source, destination_full, options)
+        process_image(source, destination_full, options)
         ::Middleman::Sitemap::Resource.new(@app.sitemap, destination, destination_full)
       end
 
-      def resize_image(source, destination, options)
+      def process_image(source, destination, options)
         image = MiniMagick::Image.open(source)
         image.resize options[:resize] unless options[:resize].nil?
         ImageOptim.new(options[:image_optim]).optimize_image!(image.path) if options[:optimize]
