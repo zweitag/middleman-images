@@ -17,7 +17,7 @@ module Middleman
         end
 
         def image_path(url, process_options = {})
-          url = extensions[:images].process(url, process_options)
+          url = extensions[:images].image(url, process_options)
           super url
         end
       end
@@ -26,21 +26,25 @@ module Middleman
         @template_context ||= app.template_context_class.new(app, {}, {})
       end
 
-      def process(url, process_options)
+      def process(source, process_options)
+        destination_path(source, process_options).tap do |dest_url|
+          unless app.sitemap.find_resource_by_path(dest_url)
+            logger.info "== Images: Processing #{dest_url}"
+            image = Image.new(@app, source.source_file, dest_url, process_options)
+            app.sitemap.register_resource_list_manipulator(:images, image, 40)
+            app.sitemap.rebuild_resource_list!(:images)
+          end
+        end
+      end
+
+      def image(url, process_options)
         process_options[:image_optim] = self.options[:image_optim]
         process_options[:optimize] = self.options[:optimize] unless process_options.key?(:optimize)
-        source = app.sitemap.find_resource_by_path(absolute_image_path(url))
-        if source && (process_options[:resize] || process_options[:optimize])
-          destination_path(source, process_options).tap do |dest_url|
-            unless app.sitemap.find_resource_by_path(dest_url)
-              image = Image.new(@app, source.source_file, dest_url, process_options)
-              app.sitemap.register_resource_list_manipulator(:images, image, 40)
-              app.sitemap.rebuild_resource_list!(:images)
-            end
-          end
-        else
-          url
+        if process_options[:resize] || process_options[:optimize]
+          source = app.sitemap.find_resource_by_path(absolute_image_path(url))
+          url = process(source, process_options) if source
         end
+        url
       end
 
       def initialize(app, options_hash={}, &block)

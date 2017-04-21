@@ -19,7 +19,8 @@ module Middleman
       private
 
       def build_resource(source, destination, options)
-        destination_full = (@app.source_dir + destination).to_s
+        destination_full = File.join(@app.root, @app.config[:build_dir], destination).to_s
+        FileUtils.mkdir_p File.dirname(destination_full)
         process_image(source, destination_full, options)
         ::Middleman::Sitemap::Resource.new(@app.sitemap, destination, destination_full)
       end

@@ -39,6 +39,6 @@ Feature: Building images
       """
     And the Server is running
     And I go to "/first.html"
-    And a modification time for a file named "/source/images/fox-opt.jpg"
+    And a modification time for a file named "/build/images/fox-opt.jpg"
     When I go to "/second.html"
-    Then the file "/source/images/fox-opt.jpg" should not have been updated
+    Then the file "/build/images/fox-opt.jpg" should not have been updated
