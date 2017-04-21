@@ -30,7 +30,7 @@ module Middleman
         process_options[:image_optim] = self.options[:image_optim]
         process_options[:optimize] = self.options[:optimize] unless process_options.key?(:optimize)
         source = app.sitemap.find_resource_by_path(url)
-        if process_options[:resize] || process_options[:optimize]
+        if source && (process_options[:resize] || process_options[:optimize])
           destination_path(source, process_options).tap do |url|
             unless app.sitemap.find_resource_by_path(url)
               image = Image.new(@app, source.source_file, url, process_options)
