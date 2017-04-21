@@ -13,6 +13,7 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
+        @app.logger.info "== Middleman Images: Processing #{@destination}"
         resources << build_resource(@source, @destination, @options)
       end
 

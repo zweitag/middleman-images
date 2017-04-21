@@ -31,24 +31,31 @@ For more information check [image_optim](https://github.com/toy/image_optim).
 
 ## Configuration
 
+You most likely only want images to be processed on build. So activate
+the extension `images` for the build scope.
+
 ```ruby
-activate :images
+configure :build do
+  activate :images
+end
 ```
 
 Configure the extension by passing a block to `:activate`.
 
 ```ruby
-activate :images do |options|
-  # Optimize all images by default (default: true) 
-  optimize: true
+configure :build do
+  activate :images do |images|
+    # Optimize all images by default (default: true) 
+    images.optimize = true
 
-  # Provide additional options for image_optim
-  # See https://github.com/toy/image_optim for all available options
-  image_optim: {
-    nice: 20,
-    optipng:
-      level: 5
-  }
+    # Provide additional options for image_optim
+    # See https://github.com/toy/image_optim for all available options
+    images.image_optim = {
+      nice: 20,
+      optipng:
+        level: 5
+    }
+  end
 end
 ```
 
