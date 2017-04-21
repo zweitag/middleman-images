@@ -65,9 +65,8 @@ module Middleman
       end
 
       def absolute_image_path(url)
-        path = Pathname.new(url)
-        absolute_path = path.absolute? || url.start_with?(app.config[:images_dir])
-        absolute_path ? url : (Pathname.new(app.config[:images_dir]) + path).to_s
+        absolute_path = url.start_with?('/') || url.start_with?(app.config[:images_dir])
+        absolute_path ? url : app.config[:images_dir] + '/' + url
       end
     end
   end
