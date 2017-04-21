@@ -1,4 +1,4 @@
-Feature: All image helpers optimize and resize
+Feature: image_path helper 
 
   Scenario: image_path with options
     Given a fixture app "image"
@@ -39,29 +39,16 @@ Feature: All image helpers optimize and resize
     When I go to "/images/nofile.jpg"
     Then the status code should be "404"
 
-  Scenario: image_path with relative image path
+  Scenario: image_path with asset_hash extension
     Given a fixture app "image"
+    And "asset_hash" feature is "enabled"
     And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
-      <%= image_path 'fox.jpg' %>
+      <%= image_path 'images/fox.jpg' %>
       """
     And the Server is running
     When I go to "/index.html"
-    Then I should see 'images/fox-opt.jpg'
-    When I go to "/images/fox-opt.jpg"
-    Then the status code should be "200"
-
-  Scenario: image_path with changed image_dir
-    Given a fixture app "image"
-    And "images" feature is "enabled"
-    And "images_dir" is set to "assets/images"
-    And a template named "index.html.erb" with:
-      """
-      <%= image_path 'fox.jpg' %>
-      """
-    And the Server is running
-    When I go to "/index.html"
-    Then I should see 'assets/images/fox-opt.jpg'
-    When I go to "/assets/images/fox-opt.jpg"
+    Then I should see '/images/fox-opt-7b6ffc94.jpg'
+    When I go to "/images/fox-opt-7b6ffc94.jpg"
     Then the status code should be "200"
