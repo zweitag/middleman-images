@@ -17,6 +17,7 @@ module Middleman
         end
 
         def image_path(url, process_options = {})
+          url = asset_path(:images, url)
           url = extensions[:images].process(url, process_options)
           super url
         end
@@ -56,6 +57,7 @@ module Middleman
       end
 
       private
+
       def destination_path(source, options)
         destination = source.normalized_path.sub(/#{source.ext}$/, '')
         destination += '-' + template_context.escape_html(options[:resize]) if options[:resize]
