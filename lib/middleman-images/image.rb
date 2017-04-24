@@ -19,12 +19,12 @@ module Middleman
       private
 
       def build_resource(source, destination, options)
-        tmp = File.join(@app.root, 'tmp', destination).to_s
-        FileUtils.mkdir_p File.dirname(tmp)
-        if !File.exist?(tmp) || File.mtime(source) > File.mtime(tmp)
-          process_image(source, tmp, options)
+        cache = File.join(@app.root, 'cache', destination).to_s
+        FileUtils.mkdir_p File.dirname(cache)
+        if !File.exist?(cache) || File.mtime(source) > File.mtime(cache)
+          process_image(source, cache, options)
         end
-        ::Middleman::Sitemap::Resource.new(@app.sitemap, destination, tmp)
+        ::Middleman::Sitemap::Resource.new(@app.sitemap, destination, cache)
       end
 
       def process_image(source, destination, options)

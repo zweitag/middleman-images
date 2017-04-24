@@ -1,7 +1,7 @@
 # Middleman Images Extension
 
 Resize and optimize your images on the fly with Middleman. Just run `middleman build`
-and all your images will get the minimizing treatment. **Middleman Images** currently
+and all your images will get the minimizing treatment. *Middleman Images* currently
 depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing and
 [image_optim](https://github.com/toy/image_optim) for optimizing your images.
 
@@ -93,7 +93,7 @@ becomes:
 
 ### srcset
 
-Using `srcset` with **Middleman Images** is possible via the `image_path`
+Using `srcset` with *Middleman Images* is possible via the `image_path`
 helper. Corresponding to the way Middleman handles this in conjunction with the
 `:asset_hash` option
 (see [Middleman#File Size Optimization](https://middlemanapp.com/advanced/file-size-optimization)).
@@ -102,3 +102,12 @@ helper. Corresponding to the way Middleman handles this in conjunction with the
 <img src="<%= image_path 'example.jpg', resize: '200x300' %>"
      srcset="<%= image_path 'example.jpg', resize: '400x600' %> 2x" />
 ```
+
+### Cache
+
+*Middleman Images* will create a `cache` Folder in your app directory. It will
+save the processed images in there. This is necessary to work with other plugins
+like `asset_hash` and to make sure unchanged images are not reprocessed on
+rebuild. Deleting this directory is not critical, but it will force
+*Middleman Images* to rebuild **all** images on the next build, so you should
+do this with care.

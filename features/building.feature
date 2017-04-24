@@ -34,9 +34,9 @@ Feature: Building images
       """
     And the Server is running
     And I go to "/first.html"
-    And a modification time for a file named "/tmp/images/fox-opt.jpg"
+    And a modification time for a file named "/cache/images/fox-opt.jpg"
     When I go to "/second.html"
-    Then the file "/tmp/images/fox-opt.jpg" should not have been updated
+    Then the file "/cache/images/fox-opt.jpg" should not have been updated
 
   Scenario: Building image with asset_hash extension
     Given a fixture app "image"
@@ -65,8 +65,8 @@ Feature: Building images
       <%= image_path 'images/fox.jpg', optimize: true %>
       """
     And a successfully built app at "image"
-    And a modification time for a file named "/tmp/images/fox-opt.jpg"
+    And a modification time for a file named "/cache/images/fox-opt.jpg"
     When a successfully built app at "image"
-    Then the file "/tmp/images/fox-opt.jpg" should not have been updated
+    Then the file "/cache/images/fox-opt.jpg" should not have been updated
 
 
