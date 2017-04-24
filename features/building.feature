@@ -4,12 +4,7 @@ Feature: Building images
     Given a fixture app "image"
     And a file named "config.rb" with:
       """
-      activate :images do |config|
-        config.image_optim = {
-          svgo: false,
-          pngout: false
-        }
-      end
+      activate :images
       """
     And a template named "index.html.erb" with:
       """
@@ -26,7 +21,7 @@ Feature: Building images
       | images/fox-400x225.jpg |
       | images/fox-400x225-opt.jpg |
 
-  Scenario: Not rebuilding existing resources
+  Scenario: Not building resources twice in a build
     Given a fixture app "image"
     And "images" feature is "enabled"
     And a template named "first.html.erb" with:
@@ -39,6 +34,39 @@ Feature: Building images
       """
     And the Server is running
     And I go to "/first.html"
-    And a modification time for a file named "/build/images/fox-opt.jpg"
+    And a modification time for a file named "/tmp/images/fox-opt.jpg"
     When I go to "/second.html"
-    Then the file "/build/images/fox-opt.jpg" should not have been updated
+    Then the file "/tmp/images/fox-opt.jpg" should not have been updated
+
+  Scenario: Building image with asset_hash extension
+    Given a fixture app "image"
+    And a file named "config.rb" with:
+      """
+      activate :asset_hash
+      activate :images
+      """
+    And a template named "index.html.erb" with:
+      """
+      <%= image_path 'images/fox.jpg', optimize: true %>
+      """
+    And a successfully built app at "image"
+    When I cd to "build/images"
+    Then a file named "fox-opt.jpg" should not exist
+    Then a file named "fox-opt-7b6ffc94.jpg" should exist
+
+  Scenario: Not rebuilding unchanged resource
+    Given a fixture app "image"
+    And a file named "config.rb" with:
+      """
+      activate :images
+      """
+    And a template named "index.html.erb" with:
+      """
+      <%= image_path 'images/fox.jpg', optimize: true %>
+      """
+    And a successfully built app at "image"
+    And a modification time for a file named "/tmp/images/fox-opt.jpg"
+    When a successfully built app at "image"
+    Then the file "/tmp/images/fox-opt.jpg" should not have been updated
+
+
