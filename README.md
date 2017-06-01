@@ -13,7 +13,7 @@ depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing 
 ## Installation
 
 ```ruby
-gem 'middleman_images'
+gem 'middleman-images'
 ```
 
 Resizing images requires ImageMagick to be available. Check
