@@ -63,8 +63,7 @@ end
 
 ### Resize
 
-To resize your images on build, set the option `resize` on the middleman helpers
-`image_tag` and `image_path`.
+To resize your images on build, set the option `resize` on the middleman helpers `image_tag` or `image_path`.
 
 ```erb
 <%= image_tag 'example.jpg', resize: '200x300' %>
@@ -76,6 +75,13 @@ becomes:
 ```
 
 The image `example.jpg` will be resized, optimized and saved to `example-200x300-opt.jpg`.
+
+We use ImageMagick for resizing, which respects the aspect ratio of your images when resizing. You can make ImageMagick ignore the aspect ratio by appending `!` to `resize`.
+
+```erb
+<%= image_tag 'example.jpg', resize: '200x300!' %>
+```
+Since *Middleman Images* just passes the `resize` string to ImageMagick, you can use all options available. Check the [ImageMagick documentation for resize](https://www.imagemagick.org/Usage/resize/#resize) for all available options.
 
 ### Optimize
 
