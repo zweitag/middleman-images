@@ -22,6 +22,7 @@ module Middleman
         cache = File.join(@app.root, 'cache', destination).to_s
         FileUtils.mkdir_p File.dirname(cache)
         if !File.exist?(cache) || File.mtime(source) > File.mtime(cache)
+          @app.logger.info "== Images: Processing #{destination}"
           process_image(source, cache, options)
         end
         ::Middleman::Sitemap::Resource.new(@app.sitemap, destination, cache)

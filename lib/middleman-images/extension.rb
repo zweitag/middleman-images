@@ -29,7 +29,6 @@ module Middleman
       def process(source, process_options)
         destination_path(source, process_options).tap do |dest_url|
           unless app.sitemap.find_resource_by_path(dest_url)
-            logger.info "== Images: Processing #{dest_url}"
             image = Image.new(@app, source.source_file, dest_url, process_options)
             app.sitemap.register_resource_list_manipulator(:images, image, 40)
             app.sitemap.rebuild_resource_list!(:images)
