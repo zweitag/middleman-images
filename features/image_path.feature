@@ -52,3 +52,16 @@ Feature: image_path helper
     Then I should see '/images/fox-opt-7b6ffc94.jpg'
     When I go to "/images/fox-opt-7b6ffc94.jpg"
     Then the status code should be "200"
+
+  Scenario: image_path in CSS file
+    Given a fixture app "image"
+    And "images" feature is "enabled"
+    And a file named "/source/stylesheets/app.css.erb" with:
+      """
+      body { background: url("<%= image_path 'images/fox.jpg' %>") }
+      """
+    And the Server is running
+    When I go to "/stylesheets/app.css"
+    Then I should see 'body { background: url("/images/fox-opt.jpg") }'
+    When I go to "/images/fox-opt.jpg"
+    Then the status code should be "200"
