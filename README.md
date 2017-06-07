@@ -31,13 +31,10 @@ For more information check [image_optim](https://github.com/toy/image_optim).
 
 ## Configuration
 
-You most likely only want images to be processed on build. So activate
-the extension `images` for the build scope.
+To activate the extension just put this into your `config.rb`.
 
 ```ruby
-configure :build do
-  activate :images
-end
+activate :images
 ```
 
 Configure the extension by passing a block to `:activate`.
@@ -59,11 +56,25 @@ configure :build do
 end
 ```
 
+By default *Middleman Images* will optimize all images. Since you most likely don't want that in development mode it is suggested to use this default configuration:
+
+```ruby
+configure :build do
+  activate :images
+end
+
+configure :development do
+  activate :images do |images|
+    images.optimize = false
+  end
+end
+````
+
 ## Usage
 
 ### Resize
 
-To resize your images on build, set the option `resize` on the middleman helpers `image_tag` or `image_path`.
+To resize your images, set the option `resize` on the middleman helpers `image_tag` or `image_path`.
 
 ```erb
 <%= image_tag 'example.jpg', resize: '200x300' %>
@@ -99,8 +110,7 @@ becomes:
 
 ### srcset
 
-Using `srcset` with *Middleman Images* is possible via the `image_path`
-helper. Corresponding to the way Middleman handles this in conjunction with the
+Using `srcset` with *Middleman Images* is possible via the `image_path` helper. This is how Middleman handles srcsets in conjunction with the
 `:asset_hash` option
 (see [Middleman#File Size Optimization](https://middlemanapp.com/advanced/file-size-optimization)).
 
