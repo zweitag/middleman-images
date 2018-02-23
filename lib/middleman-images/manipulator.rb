@@ -7,7 +7,9 @@ module Middleman
       end
 
       def add(image)
-        images << image
+        unless images.collect(&:destination).include? image.destination
+          images << image
+        end
       end
 
       def manipulate_resource_list(resources)
