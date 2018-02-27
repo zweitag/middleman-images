@@ -1,7 +1,7 @@
 # Middleman Images Extension
 
 Resize and optimize your images on the fly with Middleman. Just run `middleman build`
-and all your images will get the minimizing treatment. *Middleman Images* currently
+and all your images will get the minimizing treatment. Middleman Images currently
 depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing and
 [image_optim](https://github.com/toy/image_optim) for optimizing your images.
 
