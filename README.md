@@ -31,13 +31,13 @@ For more information check [image_optim](https://github.com/toy/image_optim).
 
 ## Configuration
 
-To activate the extension just put this into your `config.rb`.
+To activate the extension just put this into your `config.rb`:
 
 ```ruby
 activate :images
 ```
 
-Configure the extension by passing a block to `:activate`.
+Configure the extension by passing a block to `:activate`:
 
 ```ruby
 configure :build do
