@@ -2,10 +2,6 @@ Feature: Building images
 
   Scenario: Building all images
     Given a fixture app "image"
-    And a file named "config.rb" with:
-      """
-      activate :images
-      """
     And a template named "index.html.erb" with:
       """
       <%= image_tag 'images/fox.jpg', optimize: true %>
@@ -23,7 +19,6 @@ Feature: Building images
 
   Scenario: Not building resources twice in a build
     Given a fixture app "image"
-    And "images" feature is "enabled"
     And a template named "first.html.erb" with:
       """
       <%= image_tag 'images/fox.jpg', optimize: true %>
@@ -40,10 +35,9 @@ Feature: Building images
 
   Scenario: Building image with asset_hash extension
     Given a fixture app "image"
-    And a file named "config.rb" with:
+    And I append to "config.rb" with:
       """
       activate :asset_hash
-      activate :images
       """
     And a template named "index.html.erb" with:
       """
@@ -52,14 +46,10 @@ Feature: Building images
     And a successfully built app at "image"
     When I cd to "build/images"
     Then a file named "fox-opt.jpg" should not exist
-    Then a file named "fox-opt-7b6ffc94.jpg" should exist
+    Then a file named "fox-opt-4eaecd94.jpg" should exist
 
   Scenario: Not rebuilding unchanged resource
     Given a fixture app "image"
-    And a file named "config.rb" with:
-      """
-      activate :images
-      """
     And a template named "index.html.erb" with:
       """
       <%= image_path 'images/fox.jpg', optimize: true %>

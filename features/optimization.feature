@@ -2,7 +2,12 @@ Feature: Image optimization
 
   Scenario: Regular behavior without optimization
     Given a fixture app "image"
-    And "images" feature is "enabled" with "optimize: false" 
+    And a file named "config.rb" with:
+      """
+      activate :images do |images|
+        images.optimize = false
+      end
+      """
     And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: "Lazy Fox" %>
@@ -16,7 +21,6 @@ Feature: Image optimization
 
   Scenario: Optimize an image by default
     Given a fixture app "image"
-    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: 'Lazy Fox' %>
@@ -30,7 +34,6 @@ Feature: Image optimization
 
   Scenario: Override optimize by default
     Given a fixture app "image"
-    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: 'Lazy Fox', optimize: false %>
@@ -41,7 +44,12 @@ Feature: Image optimization
 
   Scenario: Override disabled optimization
     Given a fixture app "image"
-    And "images" feature is "enabled" with "optimize: false" 
+    And a file named "config.rb" with:
+      """
+      activate :images do |images|
+        images.optimize = false
+      end
+      """
     And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: 'Lazy Fox', optimize: true %>
