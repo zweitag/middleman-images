@@ -2,7 +2,6 @@ Feature: image_path helper
 
   Scenario: image_path with options
     Given a fixture app "image"
-    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
       <%= image_path '/images/fox.jpg', resize: "400x225", optimize: true %>
@@ -15,7 +14,6 @@ Feature: image_path helper
 
   Scenario: image_path without options
     Given a fixture app "image"
-    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
       <%= image_path '/images/fox.jpg' %>
@@ -28,7 +26,6 @@ Feature: image_path helper
 
   Scenario: image_path with unavailable image file
     Given a fixture app "image"
-    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
       <%= image_path 'nofile.jpg' %>
@@ -42,21 +39,19 @@ Feature: image_path helper
   Scenario: image_path with asset_hash extension
     Given a fixture app "image"
     And "asset_hash" feature is "enabled"
-    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
       <%= image_path 'images/fox.jpg' %>
       """
     And the Server is running
     When I go to "/index.html"
-    Then I should see '/images/fox-opt-7b6ffc94.jpg'
-    When I go to "/images/fox-opt-7b6ffc94.jpg"
+    Then I should see '/images/fox-opt-4eaecd94.jpg'
+    When I go to "/images/fox-opt-4eaecd94.jpg"
     Then the status code should be "200"
 
   Scenario: image_path in CSS file
     Given a fixture app "image"
-    And "images" feature is "enabled"
-    And a file named "/source/stylesheets/app.css.erb" with:
+    And a file named "source/stylesheets/app.css.erb" with:
       """
       body { background: url("<%= image_path 'images/fox.jpg' %>") }
       """
