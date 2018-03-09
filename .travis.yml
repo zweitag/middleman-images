@@ -12,4 +12,6 @@ os:
   - osx
 matrix:
   fast_finish: true
+before_install:
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then brew install imagemagick; fi
 script: bundle exec rake test

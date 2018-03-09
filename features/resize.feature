@@ -2,7 +2,6 @@ Feature: Image resizing
 
   Scenario: Resize image
     Given a fixture app "image"
-    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: "Lazy Fox", resize: "400x225", optimize: false %>
@@ -16,7 +15,6 @@ Feature: Image resizing
 
   Scenario: Resize image with optimization
     Given a fixture app "image"
-    And "images" feature is "enabled"
     And a template named "index.html.erb" with:
       """
       <%= image_tag '/images/fox.jpg', alt: "Lazy Fox", resize: "400x225", optimize: true %>
