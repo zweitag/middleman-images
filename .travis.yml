@@ -1,0 +1,17 @@
+language: ruby
+sudo: false
+cache: bundler
+before_script:
+  - bundle update
+rvm:
+  - 2.5.0
+  - 2.4.3
+  - 2.3.6
+os:
+  - linux
+  - osx
+matrix:
+  fast_finish: true
+before_install:
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then brew install imagemagick; fi
+script: bundle exec rake test
