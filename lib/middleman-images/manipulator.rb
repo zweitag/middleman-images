@@ -1,9 +1,10 @@
 module Middleman
   module Images
     class Manipulator
-      def initialize(app)
+      def initialize(app, ignore_original)
         @app = app
         @images = []
+        @ignore_original = ignore_original
       end
 
       def add(image)
@@ -13,13 +14,24 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
-        images.each(&:process)
-        resources += images.collect(&:resource)
+        resources = remove_original_images(resources) if ignore_original
+        resources + processed_images
       end
 
       private
 
-      attr_accessor :app, :images
+      attr_accessor :app, :images, :ignore_original
+
+      def processed_images
+        images.each(&:process)
+        images.collect(&:resource)
+      end
+
+      def remove_original_images(resources)
+        resources.reject do |resource|
+          images.map(&:source).include? resource.source_file
+        end
+      end
     end
   end
 end

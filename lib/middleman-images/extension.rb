@@ -8,6 +8,7 @@ module Middleman
 
       option :optimize, true, 'Whether to optimize images by default'
       option :image_optim, {}, 'Default options for image_optim'
+      option :ignore_original, false, 'Whether to ignore original images in build'
 
       helpers do
         def image_tag(url, options = {})
@@ -47,8 +48,8 @@ module Middleman
       end
 
       def initialize(app, options_hash={}, &block)
-        @manipulator = Manipulator.new(@app)
         super
+        @manipulator = Manipulator.new(@app, options[:ignore_original])
       end
 
       def before_build(builder)

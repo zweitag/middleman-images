@@ -1,5 +1,23 @@
 require 'mini_magick'
 
+Given /^our extension is enabled?$/ do
+  step %Q(our extension is enabled with:), ''
+end
+
+Given /^our extension is enabled with:$/ do |config|
+  config = """
+    activate :images do |config|
+      config.image_optim = {
+        pngout: false,
+        svgo: false,
+      }
+      #{config}
+    end
+  """
+  step %Q(a file named "config.rb" with:), config
+end
+
+
 Then /^the dimensions should be (\d+)x(\d+)$/ do |x, y|
   image = MiniMagick::Image.read page.body
   expect(image.dimensions).to eql [x.to_i, y.to_i]

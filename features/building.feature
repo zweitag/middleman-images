@@ -2,6 +2,7 @@ Feature: Building images
 
   Scenario: Building all images
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "index.html.erb" with:
       """
       <%= image_tag 'images/fox.jpg', optimize: true %>
@@ -19,6 +20,7 @@ Feature: Building images
 
   Scenario: Not building resources twice in a build
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "first.html.erb" with:
       """
       <%= image_tag 'images/fox.jpg', optimize: true %>
@@ -35,6 +37,7 @@ Feature: Building images
 
   Scenario: Building image with asset_hash extension
     Given a fixture app "image"
+    And our extension is enabled
     And I append to "config.rb" with:
       """
       activate :asset_hash
@@ -50,6 +53,7 @@ Feature: Building images
 
   Scenario: Not rebuilding unchanged resource
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "index.html.erb" with:
       """
       <%= image_path 'images/fox.jpg', optimize: true %>
