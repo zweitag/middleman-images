@@ -28,9 +28,11 @@ module Middleman
 
       def process(source, process_options)
         destination_path(source, process_options).tap do |dest_url|
-          image = Image.new(app, source.source_file, dest_url, process_options)
-          manipulator.add image
-          app.sitemap.register_resource_list_manipulator(:images, manipulator, 40) unless app.build?
+          unless app.sitemap.find_resource_by_path(dest_url)
+            image = Image.new(app, source.source_file, dest_url, process_options)
+            manipulator.add image
+            app.sitemap.register_resource_list_manipulator(:images, manipulator, 40) unless app.build?
+          end
         end
       end
 
