@@ -14,7 +14,7 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
-        resources = remove_original_images(resources) if ignore_original
+        ignore_orginal_resources(resources) if ignore_original
         resources + processed_images
       end
 
@@ -27,10 +27,11 @@ module Middleman
         images.collect(&:resource)
       end
 
-      def remove_original_images(resources)
-        resources.reject do |resource|
+      def ignore_orginal_resources(resources)
+        resources.select do |resource|
           images.map(&:source).include? resource.source_file
         end
+          .each(&:ignore!)
       end
     end
   end
