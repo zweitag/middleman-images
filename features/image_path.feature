@@ -16,7 +16,7 @@ Feature: image_path helper
     Given a fixture app "image"
     And a template named "index.html.erb" with:
       """
-      <%= image_path '/images/fox.jpg' %>
+      <%= image_path '/images/fox.jpg', optimize: true %>
       """
     And the Server is running
     When I go to "/index.html"
@@ -28,7 +28,7 @@ Feature: image_path helper
     Given a fixture app "image"
     And a template named "index.html.erb" with:
       """
-      <%= image_path 'nofile.jpg' %>
+      <%= image_path 'nofile.jpg', optimize: true %>
       """
     And the Server is running
     When I go to "/index.html"
@@ -41,7 +41,7 @@ Feature: image_path helper
     And "asset_hash" feature is "enabled"
     And a template named "index.html.erb" with:
       """
-      <%= image_path 'images/fox.jpg' %>
+      <%= image_path 'images/fox.jpg', optimize: true %>
       """
     And the Server is running
     When I go to "/index.html"
@@ -53,7 +53,7 @@ Feature: image_path helper
     Given a fixture app "image"
     And a file named "source/stylesheets/app.css.erb" with:
       """
-      body { background: url("<%= image_path 'images/fox.jpg' %>") }
+      body { background: url("<%= image_path 'images/fox.jpg', optimize: true %>") }
       """
     And the Server is running
     When I go to "/stylesheets/app.css"
