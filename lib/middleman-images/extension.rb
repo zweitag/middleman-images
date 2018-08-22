@@ -6,7 +6,7 @@ module Middleman
   module Images
     class Extension < ::Middleman::Extension
 
-      option :optimize, true, 'Whether to optimize images by default'
+      option :optimize, false, 'Whether to optimize images by default'
       option :image_optim, {}, 'Default options for image_optim'
       option :ignore_original, false, 'Whether to ignore original images in build'
 

@@ -5,7 +5,7 @@ Feature: Relative paths
     And our extension is enabled
     And a template named "index.html.erb" with:
       """
-      <%= image_path '/images/fox.jpg' %>
+      <%= image_path '/images/fox.jpg', optimize: true %>
       """
     And the Server is running
     When I go to "/index.html"
@@ -18,7 +18,7 @@ Feature: Relative paths
     And our extension is enabled
     And a template named "index.html.erb" with:
       """
-      <%= image_path 'fox.jpg' %>
+      <%= image_path 'fox.jpg', optimize: true %>
       """
     And the Server is running
     When I go to "/index.html"
@@ -31,7 +31,7 @@ Feature: Relative paths
     And our extension is enabled
     And a template named "index.html.erb" with:
       """
-      <%= image_path 'images/fox.jpg' %>
+      <%= image_path 'images/fox.jpg', optimize: true %>
       """
     And the Server is running
     When I go to "/index.html"
