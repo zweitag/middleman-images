@@ -42,7 +42,7 @@ Configure the extension by passing a block to `:activate`:
 ```ruby
 configure :build do
   activate :images do |images|
-    # Optimize all images by default (default: true) 
+    # Optimize all images by default (default: false)
     images.optimize = true
 
     # Provide additional options for image_optim
@@ -56,19 +56,7 @@ configure :build do
 end
 ```
 
-By default *Middleman Images* will optimize all images. Since you most likely don't want that in development mode it is suggested to use this default configuration:
-
-```ruby
-configure :build do
-  activate :images
-end
-
-configure :development do
-  activate :images do |images|
-    images.optimize = false
-  end
-end
-````
+By default *Middleman Images* won't do anything to your images.
 
 ## Usage
 
@@ -96,7 +84,7 @@ Since *Middleman Images* just passes the `resize` string to ImageMagick, you can
 
 ### Optimize
 
-You can disable (or enable) optimization for some images by providing the `optimize`
+You can enable (or disable) optimization for some images by providing the `optimize`
 option.
 
 ```erb
