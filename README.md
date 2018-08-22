@@ -42,7 +42,10 @@ Configure the extension by passing a block to `:activate`:
 ```ruby
 configure :build do
   activate :images do |images|
-    # Optimize all images by default (default: false)
+    # Do not include original images in the build (default: false)
+    images.ignore_original = true
+
+    # Optimize images (default: false)
     images.optimize = true
 
     # Provide additional options for image_optim
