@@ -31,7 +31,10 @@ module Middleman
 
       def resize(source, cache, options)
         image = MiniMagick::Image.open(source)
-        image.resize(options)
+        image.combine_options do |i|
+          i.resize(options)
+          i.define('jpeg:preserve-settings')
+        end
         image.write cache
       end
 
