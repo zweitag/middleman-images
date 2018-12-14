@@ -2,6 +2,7 @@ Feature: image_path helper
 
   Scenario: image_path with options
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "index.html.erb" with:
       """
       <%= image_path '/images/fox.jpg', resize: "400x225", optimize: true %>
@@ -14,6 +15,7 @@ Feature: image_path helper
 
   Scenario: image_path without options
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "index.html.erb" with:
       """
       <%= image_path '/images/fox.jpg', optimize: true %>
@@ -26,6 +28,7 @@ Feature: image_path helper
 
   Scenario: image_path with unavailable image file
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "index.html.erb" with:
       """
       <%= image_path 'nofile.jpg', optimize: true %>
@@ -38,6 +41,7 @@ Feature: image_path helper
 
   Scenario: image_path with asset_hash extension
     Given a fixture app "image"
+    And our extension is enabled
     And "asset_hash" feature is "enabled"
     And a template named "index.html.erb" with:
       """
@@ -51,6 +55,7 @@ Feature: image_path helper
 
   Scenario: image_path in CSS file
     Given a fixture app "image"
+    And our extension is enabled
     And a file named "source/stylesheets/app.css.erb" with:
       """
       body { background: url("<%= image_path 'images/fox.jpg', optimize: true %>") }

@@ -4,7 +4,7 @@ require 'image_optim'
 module Middleman
   module Images
     class Image
-      attr_reader :destination
+      attr_reader :destination, :source
 
       def initialize(app, source, destination, options = {})
         @app = app
@@ -31,7 +31,7 @@ module Middleman
 
       private
 
-      attr_accessor :app, :cache, :source, :options
+      attr_accessor :app, :cache, :options
     end
   end
 end

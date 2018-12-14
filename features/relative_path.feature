@@ -2,6 +2,7 @@ Feature: Relative paths
 
   Scenario: Absolute image path 
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "index.html.erb" with:
       """
       <%= image_path '/images/fox.jpg', optimize: true %>
@@ -14,6 +15,7 @@ Feature: Relative paths
 
   Scenario: Relative image path
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "index.html.erb" with:
       """
       <%= image_path 'fox.jpg', optimize: true %>
@@ -26,6 +28,7 @@ Feature: Relative paths
 
   Scenario: Relative asset path
     Given a fixture app "image"
+    And our extension is enabled
     And a template named "index.html.erb" with:
       """
       <%= image_path 'images/fox.jpg', optimize: true %>
