@@ -43,6 +43,10 @@ module Middleman
         if process_options[:resize] || process_options[:optimize]
           source = app.sitemap.find_resource_by_path(absolute_image_path(url))
           url = process(source, process_options) if source
+        else
+          source = app.sitemap.find_resource_by_path(absolute_image_path(url))
+          manipulator.preserve_original source
+          app.sitemap.register_resource_list_manipulator(:images, manipulator, 40) unless app.build?
         end
         url
       end
