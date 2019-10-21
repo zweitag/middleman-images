@@ -33,10 +33,16 @@ module Middleman
       end
 
       def ignore_orginal_resources(resources)
-        resources.select do |resource|
-          images.map(&:source).include? resource.source_file
+        originals = images.map(&:source)
+        unused_originals = originals - required_originals
+
+        resources.each do |resource|
+          if unused_originals.include? resource
+            resource.source_file.ignore!
+          elsif required_originals.include? resource
+            resource.source_file.ignored = false
+          end
         end
-          .each(&:ignore!)
       end
     end
   end
