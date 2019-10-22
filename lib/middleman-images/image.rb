@@ -19,8 +19,8 @@ module Middleman
         if !File.exist?(cache) || File.mtime(source) > File.mtime(cache)
           app.logger.info "== Images: Processing #{destination}"
           image = MiniMagick::Image.open(source)
-          image.resize options[:resize] unless options[:resize].nil?
-          ImageOptim.new(options[:image_optim]).optimize_image!(image.path) if options[:optimize]
+          resize(image, options[:resize]) unless options[:resize].nil?
+          optimize(image.path, options[:image_optim]) if options[:optimize]
           image.write cache
         end
       end
@@ -30,6 +30,17 @@ module Middleman
       end
 
       private
+
+      def resize(image, options)
+        image.combine_options do |i|
+          i.resize(options)
+          i.define('jpeg:preserve-settings')
+        end
+      end
+
+      def optimize(image_path, options)
+        ImageOptim.new(options).optimize_image!(image_path)
+      end
 
       attr_accessor :app, :cache, :options
     end
