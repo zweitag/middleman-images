@@ -37,10 +37,10 @@ module Middleman
         unused_originals = originals - required_originals
 
         resources.each do |resource|
-          if unused_originals.include? resource
-            resource.source_file.ignore!
-          elsif required_originals.include? resource
-            resource.source_file.ignored = false
+          if unused_originals.include? resource.source_file
+            resource.ignore!
+          elsif required_originals.include? resource.source_file
+            resource.ignored = false
           end
         end
       end
