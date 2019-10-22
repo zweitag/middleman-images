@@ -14,8 +14,8 @@ module Middleman
         end
       end
 
-      def preserve_original(source)
-        required_originals << source
+      def preserve_original(resource)
+        required_originals << resource.source_file
       end
 
       def manipulate_resource_list(resources)
