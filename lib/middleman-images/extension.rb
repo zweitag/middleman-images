@@ -38,13 +38,15 @@ module Middleman
       end
 
       def image(url, process_options)
+        source = app.sitemap.find_resource_by_path(absolute_image_path(url))
+        return url if source.nil?
+        
         process_options[:image_optim] = self.options[:image_optim]
         process_options[:optimize] = self.options[:optimize] unless process_options.key?(:optimize)
+
         if process_options[:resize] || process_options[:optimize]
-          source = app.sitemap.find_resource_by_path(absolute_image_path(url))
-          url = process(source, process_options) if source
+          url = process(source, process_options)
         else
-          source = app.sitemap.find_resource_by_path(absolute_image_path(url))
           manipulator.preserve_original source
           app.sitemap.register_resource_list_manipulator(:images, manipulator, 40) unless app.build?
         end
