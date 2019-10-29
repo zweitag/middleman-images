@@ -4,6 +4,7 @@ module Middleman
       def initialize(app, ignore_original)
         @app = app
         @images = []
+        @required_originals = []
         @ignore_original = ignore_original
       end
 
@@ -13,6 +14,10 @@ module Middleman
         end
       end
 
+      def preserve_original(resource)
+        required_originals << resource.source_file
+      end
+
       def manipulate_resource_list(resources)
         ignore_orginal_resources(resources) if ignore_original
         resources + processed_images
@@ -20,7 +25,7 @@ module Middleman
 
       private
 
-      attr_accessor :app, :images, :ignore_original
+      attr_accessor :app, :images, :ignore_original, :required_originals
 
       def processed_images
         images.each(&:process)
@@ -28,10 +33,16 @@ module Middleman
       end
 
       def ignore_orginal_resources(resources)
-        resources.select do |resource|
-          images.map(&:source).include? resource.source_file
+        originals = images.map(&:source)
+        unused_originals = originals - required_originals
+
+        resources.each do |resource|
+          if unused_originals.include? resource.source_file
+            resource.ignore!
+          elsif required_originals.include? resource.source_file
+            resource.ignored = false
+          end
         end
-          .each(&:ignore!)
       end
     end
   end
