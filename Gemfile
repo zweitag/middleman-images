@@ -5,8 +5,8 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in middleman-images.gemspec
 gemspec
 
-
 group :development do
+  gem 'image_optim', '>= 0.24.2'
   gem 'middleman'
   gem 'rake'
   gem 'rdoc'

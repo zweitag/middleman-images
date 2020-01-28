@@ -1,5 +1,4 @@
 require 'mini_magick'
-require 'image_optim'
 
 module Middleman
   module Images
@@ -39,6 +38,12 @@ module Middleman
       end
 
       def optimize(image_path, options)
+        begin
+          require 'image_optim'
+        rescue LoadError
+          raise "The gem 'image_option' is required for image optimization. Please install the gem 'image_optim' or set the option optimize: false."
+        end
+
         ImageOptim.new(options).optimize_image!(image_path)
       end
 
