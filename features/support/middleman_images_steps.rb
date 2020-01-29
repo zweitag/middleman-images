@@ -1,7 +1,7 @@
 require 'mini_magick'
 
 Given /^our extension is enabled?$/ do
-  step %Q(our extension is enabled with:), ''
+  step 'our extension is enabled with:', ''
 end
 
 Given /^our extension is enabled with:$/ do |config|
@@ -14,9 +14,8 @@ Given /^our extension is enabled with:$/ do |config|
       #{config}
     end
   """
-  step %Q(a file named "config.rb" with:), config
+  step 'a file named "config.rb" with:', config
 end
-
 
 Then /^the dimensions should be (\d+)x(\d+)$/ do |x, y|
   image = MiniMagick::Image.read page.body

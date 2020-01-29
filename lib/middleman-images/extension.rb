@@ -13,7 +13,7 @@ module Middleman
       helpers do
         def image_tag(url, options = {})
           process_options = options.slice(:resize, :optimize)
-          options = { :src => image_path(url, process_options) }.update(options.except(:resize, :optimize))
+          options = { src: image_path(url, process_options) }.update(options.except(:resize, :optimize))
           super
         end
 
@@ -40,9 +40,9 @@ module Middleman
       def image(url, process_options)
         source = app.sitemap.find_resource_by_path(absolute_image_path(url))
         return url if source.nil?
-        
-        process_options[:image_optim] = self.options[:image_optim]
-        process_options[:optimize] = self.options[:optimize] unless process_options.key?(:optimize)
+
+        process_options[:image_optim] = options[:image_optim]
+        process_options[:optimize] = options[:optimize] unless process_options.key?(:optimize)
 
         if process_options[:resize] || process_options[:optimize]
           url = process(source, process_options)
@@ -53,7 +53,7 @@ module Middleman
         url
       end
 
-      def initialize(app, options_hash={}, &block)
+      def initialize(app, options_hash = {}, &block)
         super
         @manipulator = Manipulator.new(@app, options[:ignore_original])
       end
