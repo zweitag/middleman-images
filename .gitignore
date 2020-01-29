@@ -1,5 +1,6 @@
-# Ignore bundler lock file
+# Ignore bundler lock files
 /Gemfile.lock
+/gemfiles/*.lock
 
 # Ignore test files
 /tmp
