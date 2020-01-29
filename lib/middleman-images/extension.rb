@@ -64,7 +64,7 @@ module Middleman
 
         builder.app.logger.info "== Images: Looking for images to process"
         builder.app.sitemap.resources.each do |resource|
-          rack.get(::URI.escape(resource.request_path)) unless resource.binary?
+          rack.get(CGI.escape(resource.request_path)) unless resource.binary?
         end
         builder.app.sitemap.register_resource_list_manipulator(:images, manipulator, 40)
       end
