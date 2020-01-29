@@ -5,7 +5,6 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in middleman-images.gemspec
 gemspec
 
-
 group :development do
   gem 'middleman'
   gem 'rake'
