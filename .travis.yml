@@ -8,10 +8,19 @@ rvm:
   - 2.5.7
   - 2.4.9
 
-os:
-  - linux
+gemfile:
+  - Gemfile
+  - gemfiles/Gemfile.middleman-5.0-rc
+  - gemfiles/Gemfile.middleman-4.3
+  - gemfiles/Gemfile.middleman-4.2
+  - gemfiles/Gemfile.middleman-4.1
+  - gemfiles/Gemfile.middleman-4.0
+
+jobs:
+  allow_failures:
+    - gemfile: Gemfile
+
 matrix:
   fast_finish: true
-before_install:
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then brew install imagemagick; fi
+
 script: bundle exec rake test
