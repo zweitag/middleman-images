@@ -5,7 +5,6 @@ and all your images will get the minimizing treatment. *Middleman Images* curren
 depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing and
 [image_optim](https://github.com/toy/image_optim) for optimizing your images.
 
-
 [![Build Status](https://api.travis-ci.org/zweitag/middleman-images.png?branch=master)](https://travis-ci.org/zweitag/middleman-images)
 
 * * *
@@ -50,6 +49,9 @@ configure :build do
     # Do not include original images in the build (default: false)
     images.ignore_original = true
 
+    # Specify another cache directory depending on your root directory (default: 'cache')
+    images.cache_dir = 'funky_cache/subdir_of_funky_cache'
+
     # Optimize images (default: false)
     images.optimize = true
 
@@ -57,8 +59,9 @@ configure :build do
     # See https://github.com/toy/image_optim for all available options
     images.image_optim = {
       nice: 20,
-      optipng:
-        level: 5
+      optipng: {
+        level: 5,
+      },
     }
   end
 end
@@ -117,7 +120,8 @@ Using `srcset` with *Middleman Images* is possible via the `image_path` helper. 
 
 ### Cache
 
-*Middleman Images* will create a `cache` Folder in your app directory. It will
+*Middleman Images* will create a `cache` Folder in your app directory
+(or the folder name you specified as `cache_dir`). It will
 save the processed images in there. This is necessary to work with other plugins
 like `asset_hash` and to make sure unchanged images are not reprocessed on
 rebuild. Deleting this directory is not critical, but it will force

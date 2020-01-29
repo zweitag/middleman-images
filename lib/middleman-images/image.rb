@@ -11,7 +11,7 @@ module Middleman
         @source = source
         @destination = destination
         @options = options
-        @cache = File.join(app.root, 'cache', destination).to_s
+        @cache = File.join(app.root, options[:cache_dir], destination).to_s
         FileUtils.mkdir_p File.dirname(cache)
       end
 
