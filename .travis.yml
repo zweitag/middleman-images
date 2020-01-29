@@ -19,6 +19,6 @@ gemfile:
 jobs:
   fast_finish: true
   allow_failures:
-    - gemfile: Gemfile
+    - gemfile: gemfiles/Gemfile.middleman-5.0-rc
 
 script: bundle exec rake test

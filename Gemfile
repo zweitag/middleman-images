@@ -7,7 +7,7 @@ gemspec
 
 
 group :development do
-  gem 'middleman'
+  gem 'middleman', '~> 4.3'
   gem 'rake'
   gem 'rdoc'
   gem 'yard'
