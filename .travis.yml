@@ -17,6 +17,12 @@ gemfile:
 
 jobs:
   fast_finish: true
+  # We exclude these, since running Bundler 1 with Ruby 2.7 on Travis is not trivial, but Middleman 4.1/4.2 requires Bundler 1.
+  exclude:
+    - rvm: 2.7
+      gemfile: gemfiles/Gemfile.middleman-4.2
+    - rvm: 2.7
+      gemfile: gemfiles/Gemfile.middleman-4.1
   allow_failures:
     - gemfile: gemfiles/Gemfile.middleman-5.0-rc
 
