@@ -1,5 +1,5 @@
 language: ruby
-sudo: false
+
 cache: bundler
 before_script:
   - bundle update
@@ -8,10 +8,16 @@ rvm:
   - 2.6
   - 2.5
 
-os:
-  - linux
-matrix:
+gemfile:
+  - Gemfile
+  - gemfiles/Gemfile.middleman-5.0-rc
+  - gemfiles/Gemfile.middleman-4.3
+  - gemfiles/Gemfile.middleman-4.2
+  - gemfiles/Gemfile.middleman-4.1
+
+jobs:
   fast_finish: true
-before_install:
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then brew install imagemagick; fi
+  allow_failures:
+    - gemfile: gemfiles/Gemfile.middleman-5.0-rc
+
 script: bundle exec rake test
