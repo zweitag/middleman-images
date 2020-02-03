@@ -4,7 +4,6 @@ PATH
     middleman-images (0.0.1)
       image_optim (>= 0.24.2)
       middleman-core (>= 4.1.14)
-      mini_magick (>= 4.7.0)
 
 GEM
   remote: https://rubygems.org/
