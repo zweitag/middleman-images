@@ -14,10 +14,14 @@ depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing 
 
 ```ruby
 gem 'middleman-images'
+
+# For resizing images:
+gem `mini_magick`
 ```
 
-Resizing images requires ImageMagick to be available. Check
-[mini_magick](https://github.com/minimagick/minimagick) for more information.
+Resizing images requires the gem `mini_magick` and ImageMagick binaries to be
+available. Check [mini_magick](https://github.com/minimagick/minimagick) for
+more information.
 
 ImageOptim uses different tools to optimize image files. The easiest way to
 make sure, most of these tools are available, is by including them via a seperate

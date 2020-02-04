@@ -4,7 +4,6 @@ PATH
     middleman-images (0.0.1)
       image_optim (>= 0.24.2)
       middleman-core (>= 4.1.14)
-      mini_magick (>= 4.7.0)
 
 GEM
   remote: https://rubygems.org/
@@ -187,6 +186,7 @@ DEPENDENCIES
   image_optim_pack (= 0.6.0)
   middleman (~> 4.1.0)
   middleman-images!
+  mini_magick
   rake
   rdoc
   rspec
