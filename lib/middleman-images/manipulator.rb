@@ -46,6 +46,8 @@ module Middleman
       attr_accessor :app, :images, :ignore_original, :required_originals
 
       def inspect?(resource)
+        return false unless resource.template?
+
         inspected_at = @inspected_at[resource.source_file]
         return true if inspected_at.nil?
 
