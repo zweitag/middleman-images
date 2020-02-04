@@ -29,7 +29,7 @@ module Middleman
 
           @inspected_at[resource.source_file] = File.mtime(resource.source_file)
           begin
-            resource.render
+            resource.render({}, {})
           rescue => e
             app.logger.debug e
             app.logger.debug "== Images: There was an error inspecting #{resource.destination_path}. Images for this resource will not be processed."
