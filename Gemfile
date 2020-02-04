@@ -19,6 +19,8 @@ group :test do
   gem 'rspec'
 
   gem 'image_optim'
+  gem 'mini_magick'
+
   # Version is locked to make sure asset_hash tests are not broken by updated optimizations.
   gem 'image_optim_pack', '=0.6.0'
 end

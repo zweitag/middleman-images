@@ -1,5 +1,3 @@
-require 'mini_magick'
-
 module Middleman
   module Images
     class Image
@@ -15,13 +13,12 @@ module Middleman
       end
 
       def process
-        if !File.exist?(cache) || File.mtime(source) > File.mtime(cache)
-          app.logger.info "== Images: Processing #{destination}"
-          image = MiniMagick::Image.open(source)
-          resize(image, options[:resize]) unless options[:resize].nil?
-          optimize(image.path, options[:image_optim]) if options[:optimize]
-          image.write cache
-        end
+        return if File.exist?(cache) && File.mtime(source) < File.mtime(cache)
+
+        app.logger.info "== Images: Processing #{destination}"
+        FileUtils.copy(source, cache)
+        resize(cache, options[:resize]) unless options[:resize].nil?
+        optimize(cache, options[:image_optim]) if options[:optimize]
       end
 
       def resource
@@ -30,11 +27,18 @@ module Middleman
 
       private
 
-      def resize(image, options)
-        image.combine_options do |i|
+      def resize(image_path, options)
+        begin
+          require 'mini_magick'
+        rescue LoadError
+          raise 'The gem "mini_magick" is required for image resizing. Please install "mini_magick" or remove the resize option.'
+        end
+
+        image = MiniMagick::Image.new(image_path) do |i|
           i.resize(options)
           i.define('jpeg:preserve-settings')
         end
+        image.write image_path
       end
 
       def optimize(image_path, options)
