@@ -19,6 +19,11 @@ module Middleman
       end
 
       def manipulate_resource_list(resources)
+        resources.each do |resource|
+          resource.render
+        rescue => e
+          app.logger.warn "== Images: There was an error finding images to process in the resource #{resource.path}#{resource.ext}. Images in this resource will not be processed."
+        end
         ignore_orginal_resources(resources) if ignore_original
         resources + processed_images
       end
