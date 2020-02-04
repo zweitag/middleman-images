@@ -1,6 +1,6 @@
 module Middleman
   module Images
-    class Image
+    class Image < Middleman::Sitemap::Resource
       attr_reader :destination, :source
 
       def initialize(app, source, destination, options = {})
@@ -10,19 +10,28 @@ module Middleman
         @options = options
         @cache = File.join(app.root, 'cache', destination).to_s
         FileUtils.mkdir_p File.dirname(cache)
+
+        super(app.sitemap, destination, cache)
       end
 
       def process
         return if File.exist?(cache) && File.mtime(source) < File.mtime(cache)
 
         app.logger.info "== Images: Processing #{destination}"
+
         FileUtils.copy(source, cache)
         resize(cache, options[:resize]) unless options[:resize].nil?
         optimize(cache, options[:image_optim]) if options[:optimize]
       end
 
-      def resource
-        @resource ||= ::Middleman::Sitemap::Resource.new(app.sitemap, destination, cache)
+      def binary?
+        process
+        super
+      end
+
+      def static_file?
+        process
+        super
       end
 
       private
