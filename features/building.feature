@@ -73,6 +73,5 @@ Feature: Building images
       """
       <%= image_tag 'images/fox.jpg', optimize: true %>
       """
-    And the Server is running
-    When I go to "/index.html"
+    When a successfully built app at "image"
     Then the file "custom/cache/images/fox-opt.jpg" should exist
