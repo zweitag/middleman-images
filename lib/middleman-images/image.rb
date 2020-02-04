@@ -17,7 +17,19 @@ module Middleman
 
         app.logger.info "== Images: Processing #{destination}"
         FileUtils.copy(source, cache)
-        resize(cache, options[:resize]) unless options[:resize].nil?
+
+        unless options[:resize].nil?
+          if %w[.svg .gif].include?(File.extname(source))
+            app.logger.warn <<~WARN.strip.tr("\n", ' ')
+              WARNING: The file #{source} being resized is an SVG or a GIF.
+              ImageMagick builds a new binary as base64.
+              Please remove the resize option.
+            WARN
+          end
+
+          resize(cache, options[:resize]) unless options[:resize].nil?
+        end
+
         optimize(cache, options[:image_optim]) if options[:optimize]
       end
 
