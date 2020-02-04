@@ -63,4 +63,15 @@ Feature: Building images
     When a successfully built app at "image"
     Then the file "/cache/images/fox-opt.jpg" should not have been updated
 
-
+  Scenario: Building all images in a custom cache directory
+    Given a fixture app "image"
+    And our extension is enabled with:
+      """
+      config.cache_dir = 'custom/cache'
+      """
+    And a template named "index.html.erb" with:
+      """
+      <%= image_tag 'images/fox.jpg', optimize: true %>
+      """
+    When a successfully built app at "image"
+    Then the file "custom/cache/images/fox-opt.jpg" should exist
