@@ -17,10 +17,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # The version of middleman-core your extension depends on
-  s.add_runtime_dependency("middleman-core", [">= 4.2.1"])
+  s.add_runtime_dependency("middleman-core", [">= 4.1.14"])
 
-  # Needed for resizing images
-  s.add_runtime_dependency("mini_magick", [">= 4.7.0"])
   # Image optimization
   s.add_runtime_dependency("image_optim", [">= 0.24.2"])
 end
