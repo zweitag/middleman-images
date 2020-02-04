@@ -18,7 +18,4 @@ Gem::Specification.new do |s|
 
   # The version of middleman-core your extension depends on
   s.add_runtime_dependency("middleman-core", [">= 4.1.14"])
-
-  # Image optimization
-  s.add_runtime_dependency("image_optim", [">= 0.24.2"])
 end

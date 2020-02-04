@@ -5,7 +5,6 @@ and all your images will get the minimizing treatment. *Middleman Images* curren
 depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing and
 [image_optim](https://github.com/toy/image_optim) for optimizing your images.
 
-
 [![Build Status](https://api.travis-ci.org/zweitag/middleman-images.png?branch=master)](https://travis-ci.org/zweitag/middleman-images)
 
 * * *
@@ -16,12 +15,18 @@ depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing 
 gem 'middleman-images'
 
 # For resizing images:
-gem `mini_magick`
+gem 'mini_magick'
+
+# For optimizing images:
+gem 'image_optim'
 ```
 
 Resizing images requires the gem `mini_magick` and ImageMagick binaries to be
-available. Check [mini_magick](https://github.com/minimagick/minimagick) for
+available. Check [`mini_magick`](https://github.com/minimagick/minimagick) for
 more information.
+
+Optimizing images require the gem `image_optim`.
+Check [`image_optim`](https://github.com/toy/image_optim) for more information.
 
 ImageOptim uses different tools to optimize image files. The easiest way to
 make sure, most of these tools are available, is by including them via a seperate
@@ -31,7 +36,7 @@ gem:
 gem 'image_optim_pack'
 ```
 
-For more information check [image_optim](https://github.com/toy/image_optim).
+For more information check [`image_optim_pack`](https://github.com/toy/image_optim_pack)
 
 ## Configuration
 
@@ -79,6 +84,7 @@ To resize your images, set the option `resize` on the middleman helpers `image_t
 ```erb
 <%= image_tag 'example.jpg', resize: '200x300' %>
 ```
+
 becomes:
 
 ```html
@@ -92,6 +98,7 @@ We use ImageMagick for resizing, which respects the aspect ratio of your images 
 ```erb
 <%= image_tag 'example.jpg', resize: '200x300!' %>
 ```
+
 Since *Middleman Images* just passes the `resize` string to ImageMagick, you can use all options available. Check the [ImageMagick documentation for resize](https://www.imagemagick.org/Usage/resize/#resize) for all available options.
 
 ### Optimize
@@ -102,6 +109,7 @@ option.
 ```erb
 <%= image_path 'example.jpg', resize: '200x300', optimize: false %>
 ```
+
 becomes:
 
 ```html
