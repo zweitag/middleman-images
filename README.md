@@ -22,11 +22,11 @@ gem 'image_optim'
 ```
 
 Resizing images requires the gem `mini_magick` and ImageMagick binaries to be
-available. Check [mini_magick](https://github.com/minimagick/minimagick) for
+available. Check [`mini_magick`](https://github.com/minimagick/minimagick) for
 more information.
 
 Optimizing images require the gem `image_optim`.
-Check [image_optim](https://github.com/toy/image_optim) for more information.
+Check [`image_optim`](https://github.com/toy/image_optim) for more information.
 
 ImageOptim uses different tools to optimize image files. The easiest way to
 make sure, most of these tools are available, is by including them via a seperate
@@ -36,7 +36,7 @@ gem:
 gem 'image_optim_pack'
 ```
 
-For more information check [image_optim_pack](https://github.com/toy/image_optim_pack)
+For more information check [`image_optim_pack`](https://github.com/toy/image_optim_pack)
 
 ## Configuration
 
