@@ -28,11 +28,12 @@ module Middleman
           app.logger.debug "== Images: Inspecting #{resource.destination_path} for images to process."
 
           @inspected_at[resource.source_file] = File.mtime(resource.source_file)
-          resource.render
-
-        rescue => e
-          app.logger.debug e
-          app.logger.debug "== Images: There was an error inspecting #{resource.destination_path}. Images for this resource will not be processed."
+          begin
+            resource.render
+          rescue => e
+            app.logger.debug e
+            app.logger.debug "== Images: There was an error inspecting #{resource.destination_path}. Images for this resource will not be processed."
+          end
         end
 
         app.logger.info "== Images: All images have been registered."
