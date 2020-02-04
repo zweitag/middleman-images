@@ -12,10 +12,10 @@ Feature: Building images
     And a successfully built app at "image"
     When I cd to "build"
     Then the following files should exist:
-      | index.html |
-      | images/fox.jpg |
-      | images/fox-opt.jpg |
-      | images/fox-400x225.jpg |
+      | index.html                 |
+      | images/fox.jpg             |
+      | images/fox-opt.jpg         |
+      | images/fox-400x225.jpg     |
       | images/fox-400x225-opt.jpg |
 
   Scenario: Not building resources twice in a build
@@ -31,9 +31,10 @@ Feature: Building images
       """
     And the Server is running
     And I go to "/first.html"
-    And a modification time for a file named "/cache/images/fox-opt.jpg"
+    And a modification time for a file named "cache/images/fox-opt.jpg"
     When I go to "/second.html"
-    Then the file "/cache/images/fox-opt.jpg" should not have been updated
+    Then the file "cache/images/fox-opt.jpg" should exist
+    Then the file "cache/images/fox-opt.jpg" should not have been updated
 
   Scenario: Building image with asset_hash extension
     Given a fixture app "image"
@@ -59,9 +60,10 @@ Feature: Building images
       <%= image_path 'images/fox.jpg', optimize: true %>
       """
     And a successfully built app at "image"
-    And a modification time for a file named "/cache/images/fox-opt.jpg"
+    And a modification time for a file named "cache/images/fox-opt.jpg"
     When a successfully built app at "image"
-    Then the file "/cache/images/fox-opt.jpg" should not have been updated
+    Then the file "cache/images/fox-opt.jpg" should exist
+    Then the file "cache/images/fox-opt.jpg" should not have been updated
 
   Scenario: Building all images in a custom cache directory
     Given a fixture app "image"
