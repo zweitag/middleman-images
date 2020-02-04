@@ -15,12 +15,18 @@ depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing 
 gem 'middleman-images'
 
 # For resizing images:
-gem `mini_magick`
+gem 'mini_magick'
+
+# For optimizing images:
+gem 'image_optim'
 ```
 
 Resizing images requires the gem `mini_magick` and ImageMagick binaries to be
 available. Check [mini_magick](https://github.com/minimagick/minimagick) for
 more information.
+
+Optimizing images require the gem `image_optim`.
+Check [image_optim](https://github.com/toy/image_optim) for more information.
 
 ImageOptim uses different tools to optimize image files. The easiest way to
 make sure, most of these tools are available, is by including them via a seperate
@@ -30,15 +36,7 @@ gem:
 gem 'image_optim_pack'
 ```
 
-If you wish to optimize your images, you also need to add the
-gem `image_optim` to your Gemfile.
-This gem is no dependency if you only want to resize your images.
-
-```ruby
-gem 'image_optim'
-```
-
-For more information check [image_optim](https://github.com/toy/image_optim).
+For more information check [image_optim_pack](https://github.com/toy/image_optim_pack)
 
 ## Configuration
 
