@@ -5,7 +5,6 @@ and all your images will get the minimizing treatment. *Middleman Images* curren
 depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing and
 [image_optim](https://github.com/toy/image_optim) for optimizing your images.
 
-
 [![Build Status](https://api.travis-ci.org/zweitag/middleman-images.png?branch=master)](https://travis-ci.org/zweitag/middleman-images)
 
 * * *
@@ -25,6 +24,14 @@ gem:
 
 ```ruby
 gem 'image_optim_pack'
+```
+
+If you wish to optimize your images, you also need to add the
+gem `image_optim` to your Gemfile.
+This gem is no dependency if you only want to resize your images.
+
+```ruby
+gem 'image_optim'
 ```
 
 For more information check [image_optim](https://github.com/toy/image_optim).
@@ -75,6 +82,7 @@ To resize your images, set the option `resize` on the middleman helpers `image_t
 ```erb
 <%= image_tag 'example.jpg', resize: '200x300' %>
 ```
+
 becomes:
 
 ```html
@@ -88,6 +96,7 @@ We use ImageMagick for resizing, which respects the aspect ratio of your images 
 ```erb
 <%= image_tag 'example.jpg', resize: '200x300!' %>
 ```
+
 Since *Middleman Images* just passes the `resize` string to ImageMagick, you can use all options available. Check the [ImageMagick documentation for resize](https://www.imagemagick.org/Usage/resize/#resize) for all available options.
 
 ### Optimize
@@ -98,6 +107,7 @@ option.
 ```erb
 <%= image_path 'example.jpg', resize: '200x300', optimize: false %>
 ```
+
 becomes:
 
 ```html
