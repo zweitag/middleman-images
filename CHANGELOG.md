@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2020-02-05
 ### Added
+- Do not resize SVG or GIF files.
 - Added this changelog 🎊.
 - Customizable cache directory by [@pantajosef](https://github.com/pantajosef)
 - Preserve jpg quality when resizing.
