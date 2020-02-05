@@ -24,6 +24,8 @@ module Middleman
         optimize(cache, options[:image_optim]) if options[:optimize]
       end
 
+      # We want to process images as late as possible. Before Middleman works with our source file, it will check
+      # whether it is binary? or static_file?. That's when we need to ensure the processed source files exist.
       def binary?
         process
         super

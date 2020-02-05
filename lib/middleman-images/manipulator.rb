@@ -29,6 +29,8 @@ module Middleman
 
           @inspected_at[resource.source_file] = File.mtime(resource.source_file)
           begin
+            # We inspect templates by triggering the render method on them. This way our
+            # image_tag and image_path helpers will get called and register the images.
             resource.render({}, {})
           rescue => e
             app.logger.debug e
