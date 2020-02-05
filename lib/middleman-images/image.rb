@@ -3,6 +3,11 @@ module Middleman
     class Image
       attr_reader :destination, :source
 
+      IGNORE_RESIZING = {
+        ".svg" =>  "WARNING: We did not resize %{file}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger.",
+        ".gif" =>  "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
+      }.freeze
+
       def initialize(app, source, destination, options = {})
         @app = app
         @source = source
@@ -35,11 +40,9 @@ module Middleman
         end
 
         image_ext = File.extname(image_path)
-        case image_ext
-        when ".svg"
-          app.logger.warn "WARNING: You are trying to resize #{image_path}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger."
-        when ".gif"
-          app.logger.warn "WARNING: You are trying to resize #{image_path}. Resizing GIF files will lead to ImageMagick removing the animation."
+        if IGNORE_RESIZING.keys.include? image_ext
+          app.logger.warn("== Images: " + (IGNORE_RESIZING[image_ext] % { file: image_path }))
+          return
         end
 
         image = MiniMagick::Image.new(image_path) do |i|
