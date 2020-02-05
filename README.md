@@ -43,37 +43,34 @@ For more information check [`image_optim_pack`](https://github.com/toy/image_opt
 To activate the extension just put this into your `config.rb`:
 
 ```ruby
-configure :build do
-  activate :images
-end
+activate :images
 ```
 
-Although it is possible to activate the extension in development mode, we do
-not recommend this. Since this will radically drain the performance.
+With Middleman images activated, starting the Middleman server will take some time.
+During that time images that need procssing will get registered.
+The actual processing of the images takes place while navigating the page.
 
 Configure the extension by passing a block to `:activate`:
 
 ```ruby
-configure :build do
-  activate :images do |images|
-    # Do not include original images in the build (default: false)
-    images.ignore_original = true
+activate :images do |images|
+  # Do not include original images in the build (default: false)
+  images.ignore_original = true
 
-    # Specify another cache directory depending on your root directory (default: 'cache')
-    images.cache_dir = 'funky_cache/subdir_of_funky_cache'
+  # Specify another cache directory depending on your root directory (default: 'cache')
+  images.cache_dir = 'funky_cache/subdir_of_funky_cache'
 
-    # Optimize images (default: false)
-    images.optimize = true
+  # Optimize images (default: false)
+  images.optimize = true
 
-    # Provide additional options for image_optim
-    # See https://github.com/toy/image_optim for all available options
-    images.image_optim = {
-      nice: 20,
-      optipng: {
-        level: 5,
-      },
-    }
-  end
+  # Provide additional options for image_optim
+  # See https://github.com/toy/image_optim for all available options
+  images.image_optim = {
+    nice: 20,
+    optipng: {
+      level: 5,
+    },
+  }
 end
 ```
 
