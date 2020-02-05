@@ -17,19 +17,7 @@ module Middleman
 
         app.logger.info "== Images: Processing #{destination}"
         FileUtils.copy(source, cache)
-
-        unless options[:resize].nil?
-          if %w[.svg .gif].include?(File.extname(source))
-            app.logger.warn <<~WARN.strip.tr("\n", ' ')
-              WARNING: The file #{source} being resized is an SVG or a GIF.
-              ImageMagick builds a new binary as base64.
-              Please remove the resize option.
-            WARN
-          end
-
-          resize(cache, options[:resize]) unless options[:resize].nil?
-        end
-
+        resize(cache, options[:resize]) unless options[:resize].nil?
         optimize(cache, options[:image_optim]) if options[:optimize]
       end
 
@@ -44,6 +32,14 @@ module Middleman
           require 'mini_magick'
         rescue LoadError
           raise 'The gem "mini_magick" is required for image resizing. Please install "mini_magick" or remove the resize option.'
+        end
+
+        image_ext = File.extname(image_path)
+        case image_ext
+        when ".svg"
+          app.logger.warn "WARNING: You are trying to resize #{image_path}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger."
+        when ".gif"
+          app.logger.warn "WARNING: You are trying to resize #{image_path}. Resizing GIF files will lead to ImageMagick removing the animation."
         end
 
         image = MiniMagick::Image.new(image_path) do |i|
