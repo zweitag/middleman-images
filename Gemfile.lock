@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    middleman-images (0.0.1)
+    middleman-images (0.1.0)
       middleman-core (>= 4.1.14)
 
 GEM
