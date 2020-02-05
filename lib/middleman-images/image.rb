@@ -3,6 +3,11 @@ module Middleman
     class Image < Middleman::Sitemap::Resource
       attr_reader :destination, :source
 
+      IGNORE_RESIZING = {
+        ".svg" =>  "WARNING: We did not resize %{file}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger.",
+        ".gif" =>  "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
+      }.freeze
+
       def initialize(app, source, destination, options = {})
         @app = app
         @source = source
@@ -43,6 +48,12 @@ module Middleman
           require 'mini_magick'
         rescue LoadError
           raise 'The gem "mini_magick" is required for image resizing. Please install "mini_magick" or remove the resize option.'
+        end
+
+        image_ext = File.extname(image_path)
+        if IGNORE_RESIZING.keys.include? image_ext
+          app.logger.warn("== Images: " + (IGNORE_RESIZING[image_ext] % { file: image_path }))
+          return
         end
 
         image = MiniMagick::Image.new(image_path) do |i|
