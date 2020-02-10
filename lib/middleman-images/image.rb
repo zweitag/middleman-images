@@ -6,6 +6,8 @@ module Middleman
         ".gif" =>  "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
       }.freeze
 
+      attr_reader :app
+
       def initialize(store, path, source, options = {})
         @original_source_file = source
 
