@@ -23,6 +23,10 @@ module Middleman
         end
       end
 
+      def manipulate_resource_list(resources)
+        manipulator.manipulate_resource_list(resources)
+      end
+
       def template_context
         @template_context ||= app.template_context_class.new(app, {}, {})
       end
@@ -32,7 +36,6 @@ module Middleman
           unless app.sitemap.find_resource_by_path(dest_url)
             image = Image.new(app, source.source_file, dest_url, process_options.merge(cache_dir: options[:cache_dir]))
             manipulator.add image
-            app.sitemap.register_resource_list_manipulator(:images, manipulator, 40) unless app.build?
           end
         end
       end
@@ -48,7 +51,6 @@ module Middleman
           url = process(source, process_options)
         else
           manipulator.preserve_original source
-          app.sitemap.register_resource_list_manipulator(:images, manipulator, 40) unless app.build?
         end
         url
       end
@@ -56,17 +58,6 @@ module Middleman
       def initialize(app, options_hash = {}, &block)
         super
         @manipulator = Manipulator.new(@app, options[:ignore_original])
-      end
-
-      def before_build(builder)
-        # trigger our image_tag helper
-        rack = builder.instance_variable_get(:@rack)
-
-        builder.app.logger.info "== Images: Looking for images to process"
-        builder.app.sitemap.resources.each do |resource|
-          rack.get(CGI.escape(resource.request_path)) unless resource.binary?
-        end
-        builder.app.sitemap.register_resource_list_manipulator(:images, manipulator, 40)
       end
 
       private

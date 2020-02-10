@@ -31,8 +31,10 @@ Feature: Building images
       """
     And the Server is running
     And I go to "/first.html"
+    And I go to "/images/fox-opt.jpg"
     And a modification time for a file named "cache/images/fox-opt.jpg"
-    When I go to "/second.html"
+    And I go to "/second.html"
+    When I go to "/images/fox-opt.jpg"
     Then the file "cache/images/fox-opt.jpg" should exist
     Then the file "cache/images/fox-opt.jpg" should not have been updated
 

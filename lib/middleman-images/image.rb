@@ -1,6 +1,6 @@
 module Middleman
   module Images
-    class Image
+    class Image < Middleman::Sitemap::Resource
       attr_reader :destination, :source
 
       IGNORE_RESIZING = {
@@ -15,19 +15,30 @@ module Middleman
         @options = options
         @cache = File.join(app.root, options[:cache_dir], destination).to_s
         FileUtils.mkdir_p File.dirname(cache)
+
+        super(app.sitemap, destination, cache)
       end
 
       def process
         return if File.exist?(cache) && File.mtime(source) < File.mtime(cache)
 
         app.logger.info "== Images: Processing #{destination}"
+
         FileUtils.copy(source, cache)
         resize(cache, options[:resize]) unless options[:resize].nil?
         optimize(cache, options[:image_optim]) if options[:optimize]
       end
 
-      def resource
-        @resource ||= ::Middleman::Sitemap::Resource.new(app.sitemap, destination, cache)
+      # We want to process images as late as possible. Before Middleman works with our source file, it will check
+      # whether it is binary? or static_file?. That's when we need to ensure the processed source files exist.
+      def binary?
+        process
+        super
+      end
+
+      def static_file?
+        process
+        super
       end
 
       private
