@@ -1,11 +1,17 @@
 require 'mini_magick'
 
+Given /^a middleman configuration with:$/ do |config|
+  @middleman_config = config
+end
+
 Given /^our extension is enabled?$/ do
   step 'our extension is enabled with:', ''
 end
 
 Given /^our extension is enabled with:$/ do |config|
   config = """
+    #{@middleman_config}
+
     activate :images do |config|
       config.image_optim = {
         pngout: false,
