@@ -6,7 +6,7 @@ module Middleman
         ".gif" =>  "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
       }.freeze
 
-      attr_reader :app
+      attr_reader :app, :original_source_file
 
       def initialize(store, path, source, options = {})
         @original_source_file = source
@@ -20,11 +20,11 @@ module Middleman
       end
 
       def process
-        return if File.exist?(source_file) && File.mtime(@original_source_file) < File.mtime(source_file)
+        return if File.exist?(source_file) && File.mtime(original_source_file) < File.mtime(source_file)
 
         app.logger.info "== Images: Processing #{@path}"
 
-        FileUtils.copy(@original_source_file, source_file)
+        FileUtils.copy(original_source_file, source_file)
         resize(source_file, @processing_options[:resize]) unless @processing_options[:resize].nil?
         optimize(source_file, @processing_options[:image_optim]) if @processing_options[:optimize]
       end
