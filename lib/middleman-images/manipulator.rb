@@ -58,7 +58,7 @@ module Middleman
       end
 
       def ignore_orginal_resources(resources)
-        originals = images.map(&:source)
+        originals = images.map(&:source_file)
         unused_originals = originals - required_originals
 
         resources.each do |resource|

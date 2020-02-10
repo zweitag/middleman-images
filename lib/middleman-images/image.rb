@@ -1,32 +1,30 @@
 module Middleman
   module Images
     class Image < Middleman::Sitemap::Resource
-      attr_reader :destination, :source
-
       IGNORE_RESIZING = {
         ".svg" =>  "WARNING: We did not resize %{file}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger.",
         ".gif" =>  "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
       }.freeze
 
-      def initialize(app, source, destination, options = {})
-        @app = app
-        @source = source
-        @destination = destination
-        @options = options
-        @cache = File.join(app.root, options[:cache_dir], destination).to_s
+      def initialize(store, path, source, options = {})
+        @original_source_file = source
+
+        cache = File.join(store.app.root, options.delete(:cache_dir), path).to_s
         FileUtils.mkdir_p File.dirname(cache)
 
-        super(app.sitemap, destination, cache)
+        @processing_options = options
+
+        super(store, path, cache)
       end
 
       def process
-        return if File.exist?(cache) && File.mtime(source) < File.mtime(cache)
+        return if File.exist?(source_file) && File.mtime(@original_source_file) < File.mtime(source_file)
 
-        app.logger.info "== Images: Processing #{destination}"
+        app.logger.info "== Images: Processing #{@path}"
 
-        FileUtils.copy(source, cache)
-        resize(cache, options[:resize]) unless options[:resize].nil?
-        optimize(cache, options[:image_optim]) if options[:optimize]
+        FileUtils.copy(@original_source_file, source_file)
+        resize(source_file, @processing_options[:resize]) unless @processing_options[:resize].nil?
+        optimize(source_file, @processing_options[:image_optim]) if @processing_options[:optimize]
       end
 
       # We want to process images as late as possible. Before Middleman works with our source file, it will check
@@ -72,8 +70,6 @@ module Middleman
 
         ImageOptim.new(options).optimize_image!(image_path)
       end
-
-      attr_accessor :app, :cache, :options
     end
   end
 end
