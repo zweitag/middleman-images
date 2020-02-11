@@ -1,15 +1,15 @@
-require 'mini_magick'
+require "mini_magick"
 
 Given /^a middleman configuration with:$/ do |config|
   @middleman_config = config
 end
 
 Given /^our extension is enabled?$/ do
-  step 'our extension is enabled with:', ''
+  step "our extension is enabled with:", ""
 end
 
 Given /^our extension is enabled with:$/ do |config|
-  config = """
+  config = "" "
     #{@middleman_config}
 
     activate :images do |config|
@@ -19,7 +19,7 @@ Given /^our extension is enabled with:$/ do |config|
       }
       #{config}
     end
-  """
+  " ""
   step 'a file named "config.rb" with:', config
 end
 
@@ -29,9 +29,9 @@ Then /^the dimensions should be (\d+)x(\d+)$/ do |x, y|
 end
 
 Then /^the content length should be equal to the file size of "([^\"]*)"$/ do |file|
-  expect(page.response_headers['Content-Length'].to_i).to eq File.size(expand_path(file))
+  expect(page.response_headers["Content-Length"].to_i).to eq File.size(expand_path(file))
 end
 
 Then /^the content length should be smaller than the file size of "([^\"]*)"$/ do |file|
-  expect(page.response_headers['Content-Length'].to_i).to be < File.size(expand_path(file))
+  expect(page.response_headers["Content-Length"].to_i).to be < File.size(expand_path(file))
 end

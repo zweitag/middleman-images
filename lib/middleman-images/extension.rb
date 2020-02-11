@@ -1,14 +1,14 @@
-require 'middleman-core'
-require 'pathname'
-require 'padrino-helpers'
+require "middleman-core"
+require "pathname"
+require "padrino-helpers"
 
 module Middleman
   module Images
     class Extension < ::Middleman::Extension
-      option :optimize, false, 'Whether to optimize images by default'
-      option :image_optim, {}, 'Default options for image_optim'
-      option :ignore_original, false, 'Whether to ignore original images in build'
-      option :cache_dir, 'cache', 'Specification of cache folder'
+      option :optimize, false, "Whether to optimize images by default"
+      option :image_optim, {}, "Default options for image_optim"
+      option :ignore_original, false, "Whether to ignore original images in build"
+      option :cache_dir, "cache", "Specification of cache folder"
 
       helpers do
         def image_tag(path, options = {})
@@ -53,8 +53,8 @@ module Middleman
       private
 
       def absolute_path(path)
-        absolute_path = path.start_with?('/') || path.start_with?(app.config[:images_dir])
-        absolute_path ? path : app.config[:images_dir] + '/' + path
+        absolute_path = path.start_with?("/") || path.start_with?(app.config[:images_dir])
+        absolute_path ? path : app.config[:images_dir] + "/" + path
       end
 
       def add_processed_resource(source, process_options)
@@ -65,9 +65,9 @@ module Middleman
       end
 
       def build_processed_path(source, process_options)
-        destination = source.normalized_path.sub(/#{source.ext}$/, '')
-        destination += '-' + CGI.escape(process_options[:resize].to_s) if process_options[:resize]
-        destination += '-opt' if process_options[:optimize]
+        destination = source.normalized_path.sub(/#{source.ext}$/, "")
+        destination += "-" + CGI.escape(process_options[:resize].to_s) if process_options[:resize]
+        destination += "-opt" if process_options[:optimize]
         destination + source.ext
       end
     end

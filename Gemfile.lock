@@ -158,6 +158,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.2)
+    rufo (0.11.0)
     sassc (2.2.1)
       ffi (~> 1.9)
     servolux (0.13.0)
@@ -188,6 +189,7 @@ DEPENDENCIES
   rake
   rdoc
   rspec
+  rufo
   yard
 
 BUNDLED WITH
