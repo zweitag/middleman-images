@@ -58,7 +58,7 @@ module Middleman
 
       def add_processed_resource(source, process_options)
         build_processed_path(source, process_options).tap do |processed_path|
-          processed_resource = Image.new(app, source.source_file, processed_path, process_options.merge(cache_dir: options[:cache_dir]))
+          processed_resource = Image.new(app.sitemap, processed_path, source.source_file, process_options.merge(cache_dir: options[:cache_dir]))
           @manipulator.add(processed_resource)
         end
       end
