@@ -27,7 +27,6 @@ module Middleman
 
           app.logger.debug "== Images: Inspecting #{resource.destination_path} for images to process."
 
-          @inspected_at[resource.source_file] = File.mtime(resource.source_file)
           begin
             # We inspect templates by triggering the render method on them. This way our
             # image_tag and image_path helpers will get called and register the images.
@@ -51,10 +50,13 @@ module Middleman
       def inspect?(resource)
         return false unless resource.template?
 
-        inspected_at = @inspected_at[resource.source_file]
+        inspected_at = @inspected_at[resource.destination_path]
         return true if inspected_at.nil?
 
-        inspected_at < File.mtime(resource.source_file)
+        source_modification_time = File.mtime(resource.source_file)
+        inspected_at < source_modification_time.tap do |inspect|
+          @inspected_at[resource.destination_path] = source_modification_time if inspect
+        end
       end
 
       def ignore_orginal_resources(resources)
