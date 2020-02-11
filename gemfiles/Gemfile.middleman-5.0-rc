@@ -10,7 +10,6 @@ gem 'middleman', '~> 5.0.0.rc'
 gem 'aruba'
 gem 'capybara'
 gem 'cucumber'
-gem 'rake'
 
 gem 'image_optim'
 # Version is locked to make sure asset_hash tests are not broken by updated optimizations.

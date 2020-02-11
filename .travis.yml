@@ -26,4 +26,4 @@ jobs:
   allow_failures:
     - gemfile: gemfiles/Gemfile.middleman-5.0-rc
 
-script: bundle exec rake test
+script: bundle exec cucumber
