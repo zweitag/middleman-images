@@ -23,7 +23,5 @@ jobs:
       gemfile: gemfiles/Gemfile.middleman-4.2
     - rvm: 2.7
       gemfile: gemfiles/Gemfile.middleman-4.1
-  allow_failures:
-    - gemfile: gemfiles/Gemfile.middleman-5.0-rc
 
 script: bundle exec rake test
