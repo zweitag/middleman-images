@@ -35,8 +35,9 @@ module Middleman
         process_options[:optimize] = options[:optimize] unless process_options.key?(:optimize)
 
         if process_options[:resize] || process_options[:optimize]
-          processed_path = add_processed_resource(source, process_options)
-          path = Pathname.new(processed_path).relative_path_from(Pathname.new(app.config[:images_dir])).to_s
+          processed_path = Pathname.new(add_processed_resource(source, process_options))
+          images_dir = Pathname.new(app.config[:images_dir])
+          path = processed_path.relative_path_from(Pathname.new(app.config[:images_dir])).to_s
         else
           @manipulator.preserve_original source
         end
