@@ -11,22 +11,22 @@ module Middleman
       def initialize(store, path, source, options = {})
         @original_source_file = source
 
-        cache = File.join(store.app.root, options.delete(:cache_dir), path).to_s
-        FileUtils.mkdir_p File.dirname(cache)
+        processed_source_file = File.join(store.app.root, options.delete(:cache_dir), path)
+        FileUtils.mkdir_p File.dirname(processed_source_file)
 
         @processing_options = options
 
-        super(store, path, cache)
+        super(store, path, processed_source_file)
       end
 
       def process
-        return if File.exist?(source_file) && File.mtime(original_source_file) < File.mtime(source_file)
+        return if File.exist?(processed_source_file) && File.mtime(original_source_file) < File.mtime(processed_source_file)
 
         app.logger.info "== Images: Processing #{@path}"
 
-        FileUtils.copy(original_source_file, source_file)
-        resize(source_file, @processing_options[:resize]) unless @processing_options[:resize].nil?
-        optimize(source_file, @processing_options[:image_optim]) if @processing_options[:optimize]
+        FileUtils.copy(original_source_file, processed_source_file)
+        resize(processed_source_file, @processing_options[:resize]) unless @processing_options[:resize].nil?
+        optimize(processed_source_file, @processing_options[:image_optim]) if @processing_options[:optimize]
       end
 
       # We want to process images as late as possible. Before Middleman works with our source file, it will check
@@ -39,6 +39,11 @@ module Middleman
       def static_file?
         process
         super
+      end
+
+      # The processed source file is the new source file for middleman.
+      def processed_source_file
+        source_file
       end
 
       private
