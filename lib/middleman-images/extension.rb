@@ -11,48 +11,38 @@ module Middleman
       option :cache_dir, 'cache', 'Specification of cache folder'
 
       helpers do
-        def image_tag(url, options = {})
+        def image_tag(path, options = {})
           process_options = options.slice(:resize, :optimize)
-          options = { src: image_path(url, process_options) }.update(options.except(:resize, :optimize))
-          super
+          options = { src: image_path(path, process_options) }.update(options.except(:resize, :optimize))
+          super(path, options)
         end
 
-        def image_path(url, process_options = {})
-          url = extensions[:images].image(url, process_options)
-          super url
+        def image_path(path, process_options = {})
+          path = extensions[:images].image_path(path, process_options)
+          super(path)
         end
       end
 
       def manipulate_resource_list(resources)
-        manipulator.manipulate_resource_list(resources)
+        @manipulator.manipulate_resource_list(resources)
       end
 
-      def template_context
-        @template_context ||= app.template_context_class.new(app, {}, {})
-      end
-
-      def process(source, process_options)
-        destination_path(source, process_options).tap do |dest_url|
-          unless app.sitemap.find_resource_by_path(dest_url)
-            image = Image.new(app.sitemap, dest_url, source.source_file, process_options.merge(cache_dir: options[:cache_dir]))
-            manipulator.add image
-          end
-        end
-      end
-
-      def image(url, process_options)
-        source = app.sitemap.find_resource_by_path(absolute_image_path(url))
-        return url if source.nil?
+      def image_path(path, process_options)
+        source = app.sitemap.find_resource_by_path(absolute_path(path))
+        return path if source.nil?
 
         process_options[:image_optim] = options[:image_optim]
         process_options[:optimize] = options[:optimize] unless process_options.key?(:optimize)
 
         if process_options[:resize] || process_options[:optimize]
-          url = process(source, process_options)
+          processed_path = Pathname.new(add_processed_resource(source, process_options))
+          images_dir = Pathname.new(app.config[:images_dir])
+          path = processed_path.relative_path_from(Pathname.new(app.config[:images_dir])).to_s
         else
-          manipulator.preserve_original source
+          @manipulator.preserve_original source
         end
-        url
+
+        path
       end
 
       def initialize(app, options_hash = {}, &block)
@@ -62,18 +52,23 @@ module Middleman
 
       private
 
-      attr_reader :manipulator
-
-      def destination_path(source, options)
-        destination = source.normalized_path.sub(/#{source.ext}$/, '')
-        destination += '-' + template_context.escape_html(options[:resize]) if options[:resize]
-        destination += '-opt' if options[:optimize]
-        destination + source.ext
+      def absolute_path(path)
+        absolute_path = path.start_with?('/') || path.start_with?(app.config[:images_dir])
+        absolute_path ? path : app.config[:images_dir] + '/' + path
       end
 
-      def absolute_image_path(url)
-        absolute_path = url.start_with?('/') || url.start_with?(app.config[:images_dir])
-        absolute_path ? url : app.config[:images_dir] + '/' + url
+      def add_processed_resource(source, process_options)
+        build_processed_path(source, process_options).tap do |processed_path|
+          processed_resource = Image.new(app.sitemap, processed_path, source.source_file, process_options.merge(cache_dir: options[:cache_dir]))
+          @manipulator.add(processed_resource)
+        end
+      end
+
+      def build_processed_path(source, process_options)
+        destination = source.normalized_path.sub(/#{source.ext}$/, '')
+        destination += '-' + CGI.escape(process_options[:resize].to_s) if process_options[:resize]
+        destination += '-opt' if process_options[:optimize]
+        destination + source.ext
       end
     end
   end
