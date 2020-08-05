@@ -2,8 +2,8 @@ module Middleman
   module Images
     class Image < Middleman::Sitemap::Resource
       IGNORE_RESIZING = {
-        ".svg" =>  "WARNING: We did not resize %{file}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger.",
-        ".gif" =>  "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
+        ".svg" => "WARNING: We did not resize %{file}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger.",
+        ".gif" => "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
       }.freeze
 
       attr_reader :app, :original_source_file
@@ -50,7 +50,7 @@ module Middleman
 
       def resize(image_path, options)
         begin
-          require 'mini_magick'
+          require "mini_magick"
         rescue LoadError
           raise 'The gem "mini_magick" is required for image resizing. Please install "mini_magick" or remove the resize option.'
         end
@@ -63,14 +63,14 @@ module Middleman
 
         image = MiniMagick::Image.new(image_path) do |i|
           i.resize(options)
-          i.define('jpeg:preserve-settings')
+          i.define("jpeg:preserve-settings")
         end
         image.write image_path
       end
 
       def optimize(image_path, options)
         begin
-          require 'image_optim'
+          require "image_optim"
         rescue LoadError
           raise "The gem 'image_option' is required for image optimization. Please install the gem 'image_optim' or set the option optimize: false."
         end
