@@ -67,7 +67,7 @@ module Middleman
           if unused_originals.include? resource.source_file
             resource.ignore!
           elsif required_originals.include? resource.source_file
-            resource.ignored = false
+            resource.instance_variable_set(:@ignored, false)
           end
         end
       end
