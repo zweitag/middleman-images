@@ -142,22 +142,11 @@ GEM
     rack (2.1.2)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rake (13.0.1)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    rdoc (6.2.1)
     regexp_parser (1.6.0)
-    rspec (3.9.0)
-      rspec-core (~> 3.9.0)
-      rspec-expectations (~> 3.9.0)
-      rspec-mocks (~> 3.9.0)
-    rspec-core (3.9.1)
-      rspec-support (~> 3.9.1)
     rspec-expectations (3.9.0)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.9.0)
-    rspec-mocks (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.2)
@@ -173,7 +162,6 @@ GEM
       execjs (>= 0.3.0, < 3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.24)
 
 PLATFORMS
   ruby
@@ -187,10 +175,6 @@ DEPENDENCIES
   middleman (~> 4.1.0)
   middleman-images!
   mini_magick
-  rake
-  rdoc
-  rspec
-  yard
 
 BUNDLED WITH
    1.17.3
