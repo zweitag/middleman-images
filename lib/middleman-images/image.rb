@@ -1,32 +1,32 @@
 module Middleman
   module Images
     class Image < Middleman::Sitemap::Resource
-      attr_reader :destination, :source
-
       IGNORE_RESIZING = {
-        ".svg" =>  "WARNING: We did not resize %{file}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger.",
-        ".gif" =>  "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
+        ".svg" => "WARNING: We did not resize %{file}. Resizing SVG files will lead to ImageMagick creating an SVG with an embedded binary image thus making the file way bigger.",
+        ".gif" => "WARNING: We did not resize %{file}. Resizing GIF files will remove the animation. If your GIF file is not animated, use JPG or PNG instead.",
       }.freeze
 
-      def initialize(app, source, destination, options = {})
-        @app = app
-        @source = source
-        @destination = destination
-        @options = options
-        @cache = File.join(app.root, options[:cache_dir], destination).to_s
-        FileUtils.mkdir_p File.dirname(cache)
+      attr_reader :app, :original_source_file
 
-        super(app.sitemap, destination, cache)
+      def initialize(store, path, source, options = {})
+        @original_source_file = source
+
+        processed_source_file = File.join(store.app.root, options.delete(:cache_dir), path)
+        FileUtils.mkdir_p File.dirname(processed_source_file)
+
+        @processing_options = options
+
+        super(store, path, processed_source_file)
       end
 
       def process
-        return if File.exist?(cache) && File.mtime(source) < File.mtime(cache)
+        return if File.exist?(processed_source_file) && File.mtime(original_source_file) < File.mtime(processed_source_file)
 
-        app.logger.info "== Images: Processing #{destination}"
+        app.logger.info "== Images: Processing #{@path}"
 
-        FileUtils.copy(source, cache)
-        resize(cache, options[:resize]) unless options[:resize].nil?
-        optimize(cache, options[:image_optim]) if options[:optimize]
+        FileUtils.copy(original_source_file, processed_source_file)
+        resize(processed_source_file, @processing_options[:resize]) unless @processing_options[:resize].nil?
+        optimize(processed_source_file, @processing_options[:image_optim]) if @processing_options[:optimize]
       end
 
       # We want to process images as late as possible. Before Middleman works with our source file, it will check
@@ -41,11 +41,16 @@ module Middleman
         super
       end
 
+      # The processed source file is the new source file for middleman.
+      def processed_source_file
+        source_file
+      end
+
       private
 
       def resize(image_path, options)
         begin
-          require 'mini_magick'
+          require "mini_magick"
         rescue LoadError
           raise 'The gem "mini_magick" is required for image resizing. Please install "mini_magick" or remove the resize option.'
         end
@@ -58,22 +63,20 @@ module Middleman
 
         image = MiniMagick::Image.new(image_path) do |i|
           i.resize(options)
-          i.define('jpeg:preserve-settings')
+          i.define("jpeg:preserve-settings")
         end
         image.write image_path
       end
 
       def optimize(image_path, options)
         begin
-          require 'image_optim'
+          require "image_optim"
         rescue LoadError
           raise "The gem 'image_option' is required for image optimization. Please install the gem 'image_optim' or set the option optimize: false."
         end
 
         ImageOptim.new(options).optimize_image!(image_path)
       end
-
-      attr_accessor :app, :cache, :options
     end
   end
 end
