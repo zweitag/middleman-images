@@ -11,7 +11,11 @@ Gem::Specification.new do |s|
   s.email = ["ruben.grimm@zweitag.de", "julian.schneider@zweitag.de"]
   s.homepage = "https://www.github.com/zweitag/middleman-images"
   s.summary = "Resize and optimize images for Middleman"
-  s.description = "Resize and optimize images for Middleman"
+  s.description = "" "
+    Resize and optimize your images on the fly with Middleman. Just run middleman build
+    and all your images will get the minimizing treatment. Middleman Images currently
+    depends on mini_magick for resizing and image_optim for optimizing your images.
+  " ""
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -19,5 +23,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.required_ruby_version = ">= 2.5.0"
 
-  s.add_runtime_dependency("middleman-core", [">= 4.1.14"])
+  s.add_runtime_dependency("middleman-core", [">= 4.1.14", "< 5.1"])
 end
