@@ -78,6 +78,8 @@ By default *Middleman Images* won't do anything to your images.
 
 ## Usage
 
+Middleman images supports a wide variety of options. You can look up all actions in [the ImageMagick documentation](https://www.imagemagick.org/script/command-line-options.php).
+
 ### Resize
 
 To resize your images, set the option `resize` on the middleman helpers `image_tag` or `image_path`.
@@ -101,6 +103,14 @@ We use ImageMagick for resizing, which respects the aspect ratio of your images 
 ```
 
 Since *Middleman Images* just passes the `resize` string to ImageMagick, you can use all options available. Check the [ImageMagick documentation for resize](https://www.imagemagick.org/Usage/resize/#resize) for all available options.
+
+### Crop
+
+To crop your images, set the option `crop` on the middleman helpers `image_tag` or `image_path`.
+
+```erb
+<%= image_path 'example.jpg', crop: '200x300' %>
+```
 
 ### Optimize
 

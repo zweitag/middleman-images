@@ -1,6 +1,7 @@
 require "middleman-core"
 require "pathname"
 require "padrino-helpers"
+require_relative "image"
 
 module Middleman
   module Images
@@ -9,11 +10,12 @@ module Middleman
       option :image_optim, {}, "Default options for image_optim"
       option :ignore_original, false, "Whether to ignore original images in build"
       option :cache_dir, "cache", "Specification of cache folder"
+      OPTION_NAMES = (Middleman::Images::Image::MINI_MAGICK_OPTIONS + %i[optimize]).freeze
 
       helpers do
         def image_tag(path, options = {})
-          process_options = options.slice(:resize, :optimize)
-          options = { src: image_path(path, process_options) }.update(options.except(:resize, :optimize))
+          process_options = options.slice(*OPTION_NAMES)
+          options = { src: image_path(path, process_options) }.update(options.except(*OPTION_NAMES))
           super(path, options)
         end
 
@@ -34,7 +36,7 @@ module Middleman
         process_options[:image_optim] = options[:image_optim]
         process_options[:optimize] = options[:optimize] unless process_options.key?(:optimize)
 
-        if process_options[:resize] || process_options[:optimize]
+        if process_options.slice(*OPTION_NAMES).any?
           processed_path = Pathname.new(add_processed_resource(source, process_options))
           images_dir = Pathname.new(app.config[:images_dir])
           path = processed_path.relative_path_from(Pathname.new(app.config[:images_dir])).to_s
@@ -67,6 +69,7 @@ module Middleman
       def build_processed_path(source, process_options)
         destination = source.normalized_path.sub(/#{source.ext}$/, "")
         destination += "-" + CGI.escape(process_options[:resize].to_s) if process_options[:resize]
+        destination += "-" + CGI.escape(process_options[:crop].to_s.gsub(/\W+/, '_')) if process_options[:crop]
         destination += "-opt" if process_options[:optimize]
         destination + source.ext
       end
