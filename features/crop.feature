@@ -9,8 +9,8 @@ Feature: Image cropping
       """
     And the Server is running
     When I go to "/index.html"
-    Then I should see '<img src="/images/fox-413x123_0_0.jpg" alt="Lazy Fox" />'
-    When I go to "/images/fox-413x123_0_0.jpg"
+    Then I should see '<img src="/images/fox-413x123_0_0-Center.jpg" alt="Lazy Fox" />'
+    When I go to "/images/fox-413x123_0_0-Center.jpg"
     Then the status code should be "200"
     And the dimensions should be 413x123
 

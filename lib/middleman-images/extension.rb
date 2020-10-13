@@ -11,6 +11,7 @@ module Middleman
       option :ignore_original, false, "Whether to ignore original images in build"
       option :cache_dir, "cache", "Specification of cache folder"
       OPTION_NAMES = (Middleman::Images::Image::MINI_MAGICK_OPTIONS + %i[optimize]).freeze
+      HASH_SIZE = 40
 
       helpers do
         def image_tag(path, options = {})
@@ -68,8 +69,16 @@ module Middleman
 
       def build_processed_path(source, process_options)
         destination = source.normalized_path.sub(/#{source.ext}$/, "")
-        destination += "-" + CGI.escape(process_options[:resize].to_s) if process_options[:resize]
-        destination += "-" + CGI.escape(process_options[:crop].to_s.gsub(/\W+/, '_')) if process_options[:crop]
+
+        options_part = process_options.slice(*Middleman::Images::Image::MINI_MAGICK_OPTIONS).keys
+                                                                                            .sort
+                                                                                            .map do |option_name|
+          CGI.escape(process_options[option_name].to_s.gsub(/\W+/, '_'))
+        end
+        options_part = options_part.join('-')
+        options_part = Digest::SHA1.hexdigest(options_part) if options_part.size > HASH_SIZE
+        destination += "-#{options_part}" if options_part.size > 0
+
         destination += "-opt" if process_options[:optimize]
         destination + source.ext
       end
