@@ -75,11 +75,11 @@ module Middleman
                                                                                             .map do |option_name|
           CGI.escape(process_options[option_name].to_s.gsub(/\W+/, '_'))
         end
+        options_part << 'opt' if process_options[:optimize]
         options_part = options_part.join('-')
         options_part = Digest::SHA1.hexdigest(options_part) if options_part.size > HASH_SIZE
         destination += "-#{options_part}" if options_part.size > 0
 
-        destination += "-opt" if process_options[:optimize]
         destination + source.ext
       end
     end

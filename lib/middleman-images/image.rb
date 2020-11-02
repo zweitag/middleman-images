@@ -63,7 +63,7 @@ module Middleman
         app.logger.info "== Images: Processing #{@path}"
 
         FileUtils.copy(original_source_file, processed_source_file)
-        run_mini_magick = MINI_MAGICK_OPTIONS.find { |o| @processing_options[o] }
+        run_mini_magick = MINI_MAGICK_OPTIONS.find { |o| @processing_options.key?(o) }
 
         mini_magick(processed_source_file, @processing_options) if run_mini_magick
         optimize(processed_source_file, @processing_options[:image_optim]) if @processing_options[:optimize]
@@ -91,11 +91,11 @@ module Middleman
       def mini_magick(image_path, options)
         h = {}
         mini_magick_options = options.slice(*MINI_MAGICK_OPTIONS)
-        ensure_mini_magick(mini_magick_options.keys)
+        ensure_mini_magick_installed(mini_magick_options.keys)
 
         image = MiniMagick::Image.new(image_path) do |i|
           mini_magick_options.each_pair do |action, args|
-            i.public_send(action, args) if action_possible?(image_path, action)
+            i.public_send(action, args) unless ignore_action?(image_path, action)
           end
           i.define("jpeg:preserve-settings")
         end
@@ -112,7 +112,7 @@ module Middleman
         ImageOptim.new(options).optimize_image!(image_path)
       end
 
-      def ensure_mini_magick(actions)
+      def ensure_mini_magick_installed(actions)
         begin
           require "mini_magick"
         rescue LoadError
@@ -121,12 +121,12 @@ module Middleman
         end
       end
 
-      def action_possible?(image_path, action)
+      def ignore_action?(image_path, action)
         image_ext = File.extname(image_path)
-        return true unless IGNORE_ACTION[action]&.keys&.include?(image_ext)
+        return false unless IGNORE_ACTION[action]&.keys&.include?(image_ext)
 
         app.logger.warn("== Images: " + (IGNORE_ACTION[action][image_ext] % { file: image_path }))
-        false
+        true
       end
     end
   end
