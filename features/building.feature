@@ -8,6 +8,13 @@ Feature: Building images
       <%= image_tag 'images/fox.jpg', optimize: true %>
       <%= image_tag 'images/fox.jpg', resize: '400x225', optimize: true %>
       <%= image_tag 'images/fox.jpg', resize: '400x225', optimize: false %>
+      <%= image_tag 'images/fox.jpg', blur: '42',
+                                      colorspace: 'Gray',
+                                      colorize: '0,42,0',
+                                      crop: '413x123!+0+0',
+                                      edge: '23',
+                                      resize: '400x225',
+                                      rotate: '-90' %>
       """
     And a successfully built app at "image"
     When I cd to "build"
@@ -17,6 +24,7 @@ Feature: Building images
       | images/fox-opt.jpg         |
       | images/fox-400x225.jpg     |
       | images/fox-400x225-opt.jpg |
+      | images/fox-3f68a48bd34dff1d3cb6c40a1d6a6bd377a102e7.jpg |
 
   Scenario: Not building resources twice in a build
     Given a fixture app "image"
