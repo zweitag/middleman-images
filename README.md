@@ -9,6 +9,10 @@ depends on [mini_magick](https://github.com/minimagick/minimagick) for resizing 
 
 * * *
 
+## CI
+
+We deactivated the travis.com CI pipeline as we moved all repositories to Github Actions. As this package is not in active development right now, we do not plan to migrate this repository to Github Actions. If you want to continue developing on this Gem you can migrate the steps from the `.travis.yml` to a new workflow file for Github Actions relatively easily.
+
 ## Installation
 
 ```ruby
