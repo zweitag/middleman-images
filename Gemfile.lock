@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     middleman-images (0.2.0)
-      middleman-core (>= 4.1.14)
+      middleman-core (>= 4.1.14, < 5.1)
 
 GEM
   remote: https://rubygems.org/
@@ -155,7 +155,7 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    tzinfo (1.2.6)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
